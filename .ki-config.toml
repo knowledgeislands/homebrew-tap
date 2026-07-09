@@ -1,0 +1,15 @@
+# Knowledge Islands repo config — read by the ki-repo skill.
+# One [table] per skill that needs per-repo options.
+[ki-repo]
+visibility = "public"   # "public" | "private"
+
+# ki-repo's default topic set is MCP/TypeScript-centric; those don't describe a Homebrew
+# tap. This repo carries its own topics (homebrew, homebrew-tap) and opts out of the
+# standard-set check.
+[ki-repo.checks]
+topics = false
+
+# Opt this repo into the ki-homebrew-tap standard (a Knowledge Islands Homebrew tap).
+# Keyless marker: presence is the whole config. The tap shape is fixed by Homebrew
+# (Formula/*.rb, formulae named for the tools they install), so there is nothing to tune.
+[ki-homebrew-tap]
