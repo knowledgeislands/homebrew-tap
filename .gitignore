@@ -4,3 +4,6 @@
 # Editor cruft
 *.swp
 *~
+
+# Generated project-local links (ki-bootstrap) — never committed
+.claude/skills/

@@ -9,6 +9,10 @@ visibility = "public"   # "public" | "private"
 [ki-repo.checks]
 topics = false
 
+# The authoring standard (Markdown/TOML house style) is baseline for every KI repo —
+# declared explicitly, not assumed. Presence is the compliance marker.
+[ki-authoring]
+
 # Opt this repo into the ki-homebrew-tap standard (a Knowledge Islands Homebrew tap).
 # Keyless marker: presence is the whole config. The tap shape is fixed by Homebrew
 # (Formula/*.rb, formulae named for the tools they install), so there is nothing to tune.
