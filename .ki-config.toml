@@ -1,22 +1,13 @@
-# Knowledge Islands repo config — read by the ki-repo skill.
-# One [table] per skill that needs per-repo options.
 [ki-repo]
 supported_runtimes = ["claude-code", "codex"]
-visibility = "public"   # "public" | "private"
+visibility = "public"
 
-# ki-repo's default topic set is MCP/TypeScript-centric; those don't describe a Homebrew
-# tap. This repo carries its own topics (homebrew, homebrew-tap) and opts out of the
-# standard-set check.
+# Custom topics describe this Homebrew tap more accurately than the default set.
 [ki-repo.checks]
 topics = false
 
-# The authoring standard (Markdown/TOML house style) is baseline for every KI repo —
-# declared explicitly, not assumed. Presence is the compliance marker.
 [ki-authoring]
 
-# Opt this repo into the ki-homebrew-tap standard (a Knowledge Islands Homebrew tap).
-# Keyless marker: presence is the whole config. The tap shape is fixed by Homebrew
-# (Formula/*.rb, formulae named for the tools they install), so there is nothing to tune.
 [ki-homebrew-tap]
 
 [ki-tokenomics]
