@@ -1,16 +1,34 @@
 class Ki < Formula
   desc "Knowledge Islands command-line interface"
   homepage "https://github.com/knowledgeislands/tools-ki"
-  url "https://github.com/knowledgeislands/tools-ki/archive/refs/tags/v0.1.0.tar.gz"
-  sha256 "27d1c87f0929d0fce284e22d17fd003d4d0921fb01fca40bf4e6e19f017be122"
+  version "0.2.6"
   license "MIT"
 
+  on_arm do
+    on_macos do
+      url "https://github.com/knowledgeislands/tools-ki/releases/download/v0.2.6/ki-v0.2.6-darwin-arm64.tar.gz"
+      sha256 "27f880f135d79afee71fab32e1f330508522ec06185d6738c1d3e80dfb062099"
+    end
+  end
+
+  on_intel do
+    on_macos do
+      url "https://github.com/knowledgeislands/tools-ki/releases/download/v0.2.6/ki-v0.2.6-darwin-x64.tar.gz"
+      sha256 "dc897ac78b0b8ff61f51c9c603fe17eb1b1ea583983653d44d592f76826cdb61"
+    end
+
+    on_linux do
+      url "https://github.com/knowledgeislands/tools-ki/releases/download/v0.2.6/ki-v0.2.6-linux-x64.tar.gz"
+      sha256 "209570d427de7d002bac2919761d2ce6da4a561feb1f8766bcd0c0d06012e79c"
+    end
+  end
+
   def install
-    bin.install "bin/ki"
+    bin.install "ki"
+    man1.install "man/ki.1"
   end
 
   test do
-    assert_match "ki #{version}", shell_output("#{bin}/ki --version")
-    assert_match "Usage: ki", shell_output("#{bin}/ki --help")
+    assert_equal "#{version}\n", shell_output("#{bin}/ki --version")
   end
 end
