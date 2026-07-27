@@ -18,3 +18,11 @@ topics = false
 # Keyless marker: presence is the whole config. The tap shape is fixed by Homebrew
 # (Formula/*.rb, formulae named for the tools they install), so there is nothing to tune.
 [ki-homebrew-tap]
+
+[ki-tokenomics]
+
+[ki-housekeeping-claude]
+
+[ki-tokenomics-claude]
+
+[ki-tokenomics-codex]
