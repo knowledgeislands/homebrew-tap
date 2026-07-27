@@ -10,11 +10,10 @@ The repo name (`homebrew-tap`) is **fixed by Homebrew**: `brew tap knowledgeisla
 
 ## Governance
 
-Governed by the **`ki-homebrew-tap`** repo-structure skill (in the [ki-agentic-harness](https://github.com/knowledgeislands/ki-agentic-harness)), which wraps Homebrew's own formula standard. It declares `[ki-repo]` + `[ki-homebrew-tap]` in [.ki-config.toml](./.ki-config.toml). It has no `package.json`, so it is audited **from the harness**, not self-governing:
+Governed by the **`ki-homebrew-tap`** repo-structure skill (in the [ki-agentic-harness](https://github.com/knowledgeislands/ki-agentic-harness)), which wraps Homebrew's own formula standard. It declares `[ki-repo]` + `[ki-homebrew-tap]` in [.ki-config.toml](./.ki-config.toml). It has no `package.json`; run the native repository audit directly:
 
 ```sh
-# from the ki-agentic-harness checkout
-bun skills/ki-homebrew-tap/scripts/audit-homebrew-tap.ts ../homebrew-tap
+ki repo audit --repo .
 ```
 
 The checker delegates to `brew audit --strict` / `brew style` when `brew` is on PATH.
