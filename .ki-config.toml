@@ -1,4 +1,6 @@
 ["knowledgeislands/ki-agentic-harness:ki-repo"]
+title = "knowledgeislands/homebrew-tap"
+description = "Homebrew formulae for Knowledge Islands command-line tools."
 supported_runtimes = ["claude-code", "codex"]
 visibility = "public"
 
