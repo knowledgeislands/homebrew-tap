@@ -12,7 +12,7 @@ Homebrew reads `knowledgeislands/tap` as this repository (`homebrew-tap`), so no
 
 ## Formulae
 
-| Formula | Description                                        | Source                                                       |
-| ------- | -------------------------------------------------- | ------------------------------------------------------------ |
-| `ki`    | Knowledge Islands command-line interface.          | [tools-ki](https://github.com/knowledgeislands/tools-ki)     |
-| `mgit`  | Run commands across many git repositories at once. | [tools-mgit](https://github.com/knowledgeislands/tools-mgit) |
+| Formula | Description | Source |
+| --- | --- | --- |
+| `ki` | Knowledge Islands command-line interface. | [tools-ki](https://github.com/knowledgeislands/tools-ki) |
+| `mgit` | Run commands across many git repositories at once. | [tools-mgit](https://github.com/knowledgeislands/tools-mgit) |
