@@ -1,4 +1,7 @@
-["knowledgeislands/ki-agentic-harness:ki-repo"]
+[repo]
+harnesses = ["knowledgeislands/ki-agentic-harness"]
+
+[skills.ki-repo]
 repository = "https://github.com/knowledgeislands/homebrew-tap"
 title = "knowledgeislands/homebrew-tap"
 description = "Homebrew formulae for Knowledge Islands command-line tools."
@@ -6,19 +9,19 @@ supported_runtimes = ["claude-code", "chatgpt-codex"]
 visibility = "public"
 
 # Custom topics describe this Homebrew tap more accurately than the default set.
-["knowledgeislands/ki-agentic-harness:ki-repo".checks]
+[skills.ki-repo.checks]
 topics = false
 
-["knowledgeislands/ki-agentic-harness:ki-git"]
+[skills.ki-git]
 
-["knowledgeislands/ki-agentic-harness:ki-authoring"]
+[skills.ki-authoring]
 
-["knowledgeislands/ki-agentic-harness:ki-homebrew-tap"]
+[skills.ki-homebrew-tap]
 
-["knowledgeislands/ki-agentic-harness:ki-tokenomics"]
+[skills.ki-tokenomics]
 
-["knowledgeislands/ki-agentic-harness:ki-housekeeping-claude"]
+[skills.ki-housekeeping-claude]
 
-["knowledgeislands/ki-agentic-harness:ki-tokenomics-claude"]
+[skills.ki-tokenomics-claude]
 
-["knowledgeislands/ki-agentic-harness:ki-tokenomics-codex"]
+[skills.ki-tokenomics-codex]
