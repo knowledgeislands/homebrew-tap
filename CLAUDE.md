@@ -10,7 +10,7 @@ The repo name (`homebrew-tap`) is **fixed by Homebrew**: `brew tap knowledgeisla
 
 ## Governance
 
-Governed by the **`ki-homebrew-tap`** repo-structure skill (in the [ki-agentic-harness](https://github.com/knowledgeislands/ki-agentic-harness)), which wraps Homebrew's own formula standard. It declares `[ki-repo]` + `[ki-homebrew-tap]` in [.ki-config.toml](./.ki-config.toml). It has no `package.json`; run the native repository audit directly:
+Governed by the **`ki-repo-homebrew-tap`** repo-structure skill (in the [ki-agentic-harness](https://github.com/knowledgeislands/ki-agentic-harness)), which wraps Homebrew's own formula standard. It declares `[skills.ki-repo]`, `[skills.ki-repo-project]`, and `[skills.ki-repo-homebrew-tap]` in [.ki-config.toml](./.ki-config.toml). It has no `package.json`; run the native repository audit directly:
 
 ```sh
 ki repo audit --repo .
@@ -25,4 +25,4 @@ The checker delegates to `brew audit --strict` / `brew style` when `brew` is on 
 - Add the formula to the formulae table in [README.md](./README.md).
 - Validate: `brew audit --strict --online <formula>` and `brew style <formula>` clean; `brew install --build-from-source <formula>` then `brew test <formula>`.
 
-The source repo for each tool (e.g. [tools-mgit](https://github.com/knowledgeislands/tools-mgit)) is governed separately by `ki-tools`.
+The source repo for each tool (e.g. [tools-mgit](https://github.com/knowledgeislands/tools-mgit)) is governed separately by `ki-repo-tools`.
