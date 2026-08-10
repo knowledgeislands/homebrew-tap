@@ -20,6 +20,14 @@ topics = false
 
 [skills.ki-repo-homebrew-tap]
 
+[skills.ki-trades]
+
+[skills.ki-trades.routes."knowledgeislands/tools-ki"]
+import = ["work"]
+
+[skills.ki-trades.routes."knowledgeislands/tools-mgit"]
+import = ["work"]
+
 [skills.ki-tokenomics]
 
 [skills.ki-housekeeping-claude]
