@@ -1,49 +1,46 @@
 ---
 id: BREW-001
-title: Add git-almanac formula
+title: Repin git-almanac formula
 theme: formula-coverage
 horizon: waiting-for
 status: draft
 blocks: []
 blocked_by: []
-waiting_on_trades: [TRD-96f0b04f]
 baseline_ref: null
 ---
 
 ## Goal
 
-Someone can install Git Almanac with `brew install knowledgeislands/tap/git-almanac`, the same way they already install `ki` and `mgit`, and can upgrade it through Homebrew when a later version ships.
+`brew install knowledgeislands/tap/git-almanac` installs the version of Git Almanac that its own repository considers current, the same way the tap tracks `ki` and `mgit`.
 
 ## Context
 
-The tap currently packages two of the three Knowledge Islands command-line tools. Git Almanac is the third and is absent, so its only install route is its own installer script.
+The formula now exists and is complete: `Formula/git-almanac.rb` installs the released `git-almanac` executable and its `git-almanac.1` manual, depends on `node`, and tests the installed binary. It is pinned to v1.0.1, whose release asset checksum was verified against the published `SHA256SUMS`.
 
-`knowledgeislands/tools-git-almanac` asked for this through [TRD-96f0b04f](../../+/_TRADES/knowledgeislands/tools-git-almanac/TRD-96f0b04f.md), an adopted inbound work trade whose submission is explicitly conditional: add the formula _after_ an immutable v1.0.0 is published, using `git-almanac-v1.0.0.tar.gz` and its published checksum.
+That pin is expected to be short-lived. Git Almanac's versioning is being revised in its own repository and an interim release is planned, so the tap will need to follow it once that lands.
 
-That release does not exist yet. Separate work in that repository is preparing it: `package.json` is at `1.0.0` and the changelog heads `## [1.0.0] — in progress`, but the repository still has no tags and no published releases. A formula cannot be written before one exists, because it must point at a versioned release tarball and its `sha256`, never a branch.
-
-The tool itself is already shaped for packaging: it ships `bin/git-almanac` and `man/git-almanac.1`, matching what `Formula/mgit.rb` installs.
+Everything except the pin is settled, which is the point of landing the formula now: the remaining change is two lines.
 
 ## Boundary
 
-This item adds one formula to this tap and its README row. It does not cut, verify, or influence the upstream v1.0.0 release, change how Git Almanac builds or what it ships, alter the tap's other formulae, or introduce bottle or `head` support.
+This item repoints an existing formula at a newer release. It does not cut or influence the upstream release, restructure the formula, change what Git Almanac ships, or add bottle or `head` support.
 
 ## Shaping
 
-The approach is the established one, so the item is mostly a wait rather than a design.
+When the interim release is published, update `url` and `sha256` in `Formula/git-almanac.rb`, and nothing else unless the release changes shape.
 
-Copy the shape of an existing formula and adjust it: `class GitAlmanac < Formula` with a `desc` under 80 characters that does not open with an article, the `homepage`, the released tarball `url`, its `sha256` from `curl -fsSL <tarball> | shasum -a 256`, the `license`, an `install` method placing the binary and `man/git-almanac.1`, and a `test do` block asserting on the installed binary's real output. Add the row to the README `## Formulae` table. Validate with `brew audit --strict --online`, `brew style`, `brew install --build-from-source`, and `brew test`.
+The checksum comes from the release's own `SHA256SUMS`, cross-checked locally with `curl -fsSL <tarball> | shasum -a 256`. `version` is inferred from the URL, so the `test do` assertion on `--version` stays honest without editing.
 
-One decision is genuinely open and belongs to the release, not to this item: whether Git Almanac publishes a source tarball built at install time, as `mgit` does, or per-platform release archives, as `ki` does. That choice determines whether the formula is a single `url`/`sha256` pair or `on_arm`/`on_intel` blocks, and it can be read off the published release rather than guessed now.
+Verify with `brew style`, `brew audit --strict --online git-almanac`, then `brew install --build-from-source` and `brew test` against the tap. Note that `brew audit` and `brew install` resolve a formula by name through the tapped clone under `$(brew --repository)/Library/Taps/`, not from a working copy, so they need the change pushed or the tap pointed at this checkout.
 
-Promotion condition: an immutable v1.0.0 tag with a published archive and checksum is observable in `knowledgeislands/tools-git-almanac`.
+Promotion condition: the interim release is published with an archive and checksum.
 
 ## Discussion
 
-### Why this waits rather than parks
+### Why the mechanics landed before the version settled
 
-The blocking condition is external, specific, and expected to clear on its own, which is what `waiting-for` is for. `waiting_on_trades` records the trade as the observed cross-repository condition rather than a local dependency, so the trade identity stays out of `blocked_by`.
+The release-shape questions that actually affect the formula are already answered. Git Almanac publishes a single platform-independent release asset containing a bundled Node script and its manual, so the formula needs one `url`/`sha256` pair rather than the `on_arm`/`on_intel` blocks `ki` requires, and `bin.install` plus `man1.install` rather than a build step. A later version cannot change that without changing how the tool ships.
 
-### Trade disposition
+### Runtime dependency
 
-The trade is `adopted`, with this item named as `adopted_as`. Adoption records that the request now informs separately governed local work; it does not assert the formula exists. The sender chose `observation: completion`, which adoption deliberately does not satisfy, so the outbound record stays waiting until the formula actually lands here.
+The released executable is a bundled ESM script with a `#!/usr/bin/env node` shebang and no runtime dependencies of its own, and the package declares `engines.node >= 22`. `depends_on "node"` is therefore the whole dependency story — unlike `ki`, which ships a self-contained compiled binary, and `mgit`, which is a shell script.
