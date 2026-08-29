@@ -8,6 +8,7 @@ harnesses = ["knowledgeislands/ki-agentic-harness"]
 repository = "https://github.com/knowledgeislands/homebrew-tap"
 title = "knowledgeislands/homebrew-tap"
 description = "Homebrew formulae for Knowledge Islands command-line tools."
+repo_code = "BREW"
 supported_runtimes = ["claude-code", "claude-desktop", "chatgpt-codex"]
 visibility = "public"
 
@@ -33,6 +34,12 @@ import = ["work"]
 
 [skills.ki-trades.routes."knowledgeislands/tools-mgit"]
 import = ["work"]
+
+[skills.ki-work]
+adapter = "roadmap"
+
+[skills.ki-work-roadmap]
+themes = ["formula-coverage"]
 
 [skills.ki-tokenomics]
 
