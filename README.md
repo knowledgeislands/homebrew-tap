@@ -1,7 +1,5 @@
 # knowledgeislands/homebrew-tap
 
-[![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
-
 Homebrew formulae for Knowledge Islands command-line tools.
 
 This repository is a [Homebrew tap](https://docs.brew.sh/Taps): a distribution channel holding one `Formula/<tool>.rb` per [Knowledge Islands](https://github.com/knowledgeislands) command-line tool. Homebrew resolves the tap name `knowledgeislands/tap` to the repository `knowledgeislands/homebrew-tap`, which is why the repository name carries the `homebrew-` prefix and the tap name does not. Each tool is developed in its own `tools-*` repository; only its packaging lives here.
