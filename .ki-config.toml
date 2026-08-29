@@ -25,6 +25,9 @@ topics = false
 
 [skills.ki-trades]
 
+[skills.ki-trades.routes."knowledgeislands/tools-git-almanac"]
+import = ["work"]
+
 [skills.ki-trades.routes."knowledgeislands/tools-ki"]
 import = ["work"]
 
