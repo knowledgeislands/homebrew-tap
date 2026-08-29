@@ -82,11 +82,11 @@ Two material decisions: a single `url`/`sha256` pair rather than `ki`'s `on_arm`
 
 ### Verification
 
-`brew style Formula/git-almanac.rb` — 1 file inspected, no offences. Release asset checksum verified against the published `SHA256SUMS`. The extracted executable was run directly: `--version` prints `git-almanac 0.1.0`, `--help` lists `git almanac calendar`, and `calendar` rendered a real temporary repository. `ki repo audit --repo .` reports no findings from this work.
+`brew style Formula/git-almanac.rb` — 1 file inspected, no offences. `brew audit --strict --online knowledgeislands/tap/git-almanac` — exit 0, no findings. `brew install --build-from-source` installed `bin/git-almanac` and `share/man/man1/git-almanac.1` into the Cellar, and `brew test` ran both assertions against the installed binary and passed. The installed executable reports `git-almanac 0.1.0`. Release asset checksum verified against the published `SHA256SUMS`. `ki repo audit --repo .` reports no findings from this work.
 
 ### Outstanding concerns
 
-`brew audit --strict --online` and `brew test` have not been run. Both resolve a formula by name through the tapped clone under `$(brew --repository)/Library/Taps/`, and `brew audit` by path is disabled, so they need this change pushed or the tap repointed at this checkout. `brew style` covers the style cops in the meantime.
+None outstanding for the formula itself. The Homebrew gates were run against the tapped clone under `$(brew --repository)/Library/Taps/`, where the formula was staged as an untracked file because this change is not yet pushed; that staged copy will collide with the tracked file on the next `brew update` until it is removed. Separately, an existing `~/.local/bin/git-almanac` from the upstream installer shadows the Homebrew executable on this machine, which affects local invocation only, not the formula.
 
 ### Post-change review
 
@@ -98,7 +98,7 @@ Git Almanac is now installable from the tap, completing coverage of all three Kn
 
 ## Done
 
-Accepted on 2026-08-29 on the user's explicit instruction to proceed once Git Almanac was tagged, with `brew style` and the repository audit clean and the release checksum verified. `brew audit --strict --online` and `brew test` remain outstanding as recorded above, because both resolve by name through the tapped clone rather than this working copy.
+Accepted on 2026-08-29 on the user's explicit instruction to proceed once Git Almanac was tagged, with `brew style` and the repository audit clean and the release checksum verified. `brew audit --strict --online`, `brew install --build-from-source`, and `brew test` were subsequently run against the tapped clone and all passed.
 
 ## Discussion
 
