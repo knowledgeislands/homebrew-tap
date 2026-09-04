@@ -1,5 +1,9 @@
 ---
-id: KI-HOMEBREW-002
+id: BREW-002
+theme: formula-coverage
+blocks: []
+blocked_by: []
+baseline_ref: null
 title: Audit follow-up discussion
 horizon: future
 status: draft
