@@ -1,6 +1,10 @@
 # Knowledge Islands repository configuration.
 # Its presence declares conformance with the Knowledge Islands repository standard.
 
+# -----------------------------------------------------------------------------
+# Foundation
+# -----------------------------------------------------------------------------
+
 [repo]
 harnesses = ["knowledgeislands/ki-agentic-harness"]
 
@@ -16,24 +20,21 @@ visibility = "public"
 [skills.ki-repo.checks]
 topics = false
 
-[skills.ki-git]
-
 [skills.ki-authoring]
+
+# -----------------------------------------------------------------------------
+# Repository shape
+# -----------------------------------------------------------------------------
 
 [skills.ki-repo-project]
 
 [skills.ki-repo-homebrew-tap]
 
-[skills.ki-trades]
+# -----------------------------------------------------------------------------
+# Change management
+# -----------------------------------------------------------------------------
 
-[skills.ki-trades.routes."knowledgeislands/tools-git-almanac"]
-import = ["work"]
-
-[skills.ki-trades.routes."knowledgeislands/tools-ki"]
-import = ["work"]
-
-[skills.ki-trades.routes."knowledgeislands/tools-mgit"]
-import = ["work"]
+[skills.ki-git]
 
 [skills.ki-work]
 adapter = "roadmap"
@@ -48,6 +49,21 @@ themes = ["formula-coverage"]
 [skills.ki-tokenomics-claude]
 
 [skills.ki-tokenomics-codex]
+
+# -----------------------------------------------------------------------------
+# Relationships
+# -----------------------------------------------------------------------------
+
+[skills.ki-trades]
+
+[skills.ki-trades.routes."knowledgeislands/tools-git-almanac"]
+import = ["work"]
+
+[skills.ki-trades.routes."knowledgeislands/tools-ki"]
+import = ["work"]
+
+[skills.ki-trades.routes."knowledgeislands/tools-mgit"]
+import = ["work"]
 
 [skills.ki-agora]
 
