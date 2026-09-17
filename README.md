@@ -56,6 +56,7 @@ Full command documentation lives with each tool, in the source repository linked
 | `git-almanac` | Inspect a local Git repository's calendars, authors, and reports offline. | [tools-git-almanac](https://github.com/knowledgeislands/tools-git-almanac) |
 | `ki` | Knowledge Islands command-line interface. | [tools-ki](https://github.com/knowledgeislands/tools-ki) |
 | `mgit` | Run commands across many git repositories at once. | [tools-mgit](https://github.com/knowledgeislands/tools-mgit) |
+| `rig` | Describe and manage a person's working setup. | [tools-rig](https://github.com/knowledgeislands/tools-rig) |
 
 ## Maintainers
 
