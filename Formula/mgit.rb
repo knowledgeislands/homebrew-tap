@@ -1,8 +1,8 @@
 class Mgit < Formula
   desc "Run a git command across many repositories at once"
   homepage "https://github.com/knowledgeislands/tools-mgit"
-  url "https://github.com/knowledgeislands/tools-mgit/archive/refs/tags/v0.12.0.tar.gz"
-  sha256 "a6db3c813570215d33fbca3fc2bcec3ca3d3bc1b1cb289a6e5acfb05005e9755"
+  url "https://github.com/knowledgeislands/tools-mgit/archive/refs/tags/v0.13.0.tar.gz"
+  sha256 "54afb86ef983fd364a90e04dcdb61bb8f47ac37a6bbe1768f2b3e590f2ff92db"
   license "MIT"
 
   def install
