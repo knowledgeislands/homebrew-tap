@@ -3,12 +3,12 @@ id: BREW-003
 title: Dispatch website release
 theme: formula-coverage
 horizon: now
-status: awaiting-review
+status: done
 blocks: []
 blocked_by: []
 baseline_ref: a0b9ede635472e46c13b0265d3ee64b5dad49d0f
 created_at: 2026-09-19T09:26:42Z
-updated_at: 2026-09-19T10:00:00Z
+updated_at: 2026-09-19T10:01:14Z
 ---
 
 # Dispatch Website Release
@@ -103,6 +103,10 @@ The implementation stays within the approved post-governance, changed-formula, e
 ### Mini recap
 
 The Homebrew tap now has a tested dispatcher for verified formula releases, coordinated with the already integrated KI Website receiver. Verification is clean apart from environment-only findings in the temporary worktree; no additional durable learning route is required beyond the updated maintenance guidance.
+
+## Done
+
+Accepted 2026-09-19 by Kris Brown on the review packet above.
 
 ## Discussion
 
