@@ -3,12 +3,12 @@ id: BREW-004
 title: Fan out tool releases
 theme: formula-coverage
 horizon: now
-status: ready
+status: in-progress
 blocks: []
 blocked_by: []
-baseline_ref: null
+baseline_ref: ee39d7831af8c7f114933a636b534f7e52ab9f53
 created_at: 2026-09-19T17:39:47Z
-updated_at: 2026-09-19T17:39:47Z
+updated_at: 2026-09-19T17:41:24Z
 ---
 
 # Fan Out Tool Releases
