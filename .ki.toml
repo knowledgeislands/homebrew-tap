@@ -1,6 +1,8 @@
 # Knowledge Islands repository configuration.
 # Its presence declares conformance with the Knowledge Islands repository standard.
 
+# =============================================================================
+
 # -----------------------------------------------------------------------------
 # Foundation
 # -----------------------------------------------------------------------------
@@ -17,8 +19,7 @@ supported_runtimes = ["claude-code", "claude-desktop", "chatgpt-codex"]
 visibility = "public"
 
 # Custom topics describe this Homebrew tap more accurately than the default set.
-[skills.ki-repo.checks]
-topics = false
+checks.topics = false
 
 [skills.ki-authoring]
 
@@ -55,18 +56,9 @@ themes = ["formula-coverage"]
 # -----------------------------------------------------------------------------
 
 [skills.ki-trades]
-
-[skills.ki-trades.routes."knowledgeislands/tools-git-almanac"]
-import = ["work"]
-
-[skills.ki-trades.routes."knowledgeislands/tools-ki"]
-import = ["work"]
-
-[skills.ki-trades.routes."knowledgeislands/tools-mgit"]
-import = ["work"]
+routes."knowledgeislands/tools-git-almanac" = { import = ["work"] }
+routes."knowledgeislands/tools-ki" = { import = ["work"] }
+routes."knowledgeislands/tools-mgit" = { import = ["work"] }
 
 [skills.ki-agora]
-
-[skills.ki-agora.memberships.ki-all]
-home = "https://github.com/knowledgeislands/ki-agentic-harness"
-role = "maintainer"
+memberships.ki-all = { home = "https://github.com/knowledgeislands/ki-agentic-harness", role = "maintainer" }
