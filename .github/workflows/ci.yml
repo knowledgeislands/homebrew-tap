@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       formula:
-        description: Formula name to re-dispatch after a transient delivery failure
+        description: Formula name to re-dispatch to release consumers after a transient failure
         required: true
         type: string
 
@@ -63,11 +63,11 @@ jobs:
           printf '%s\n' "$KI_CLI_INSTALL_DIR" >> "$GITHUB_PATH"
       - name: Audit
         run: ki repo audit --repo .
-      - name: Test website release event extraction
-        run: ruby test/website_release_events_test.rb
+      - name: Test tool release event extraction and consumers
+        run: ruby test/tool_release_events_test.rb
 
-  notify-website:
-    name: Notify KI Website
+  notify-consumers:
+    name: Notify release consumers
     needs: governance
     if: >-
       needs.governance.result == 'success' &&
@@ -102,7 +102,7 @@ jobs:
           : > "$RUNNER_TEMP/formula-releases"
           if [[ -n "$formulas" ]]; then
             while IFS= read -r formula; do
-              ruby scripts/website-release-events.rb "$formula" >> "$RUNNER_TEMP/formula-releases"
+              ruby scripts/tool-release-events.rb release "$formula" >> "$RUNNER_TEMP/formula-releases"
             done <<< "$formulas"
           fi
 
@@ -110,18 +110,26 @@ jobs:
             echo "found=true" >> "$GITHUB_OUTPUT"
           else
             echo "found=false" >> "$GITHUB_OUTPUT"
-            echo "No formula release changes to notify." >> "$GITHUB_STEP_SUMMARY"
+            echo "No tool formula release changes to notify." >> "$GITHUB_STEP_SUMMARY"
           fi
-      - name: Create release-bot token
+      - name: Resolve release consumers
+        if: steps.releases.outputs.found == 'true'
+        id: consumers
+        run: |
+          set -euo pipefail
+          ruby scripts/tool-release-events.rb consumers .github/tool-release-consumers.json > "$RUNNER_TEMP/release-consumers"
+          repositories=$(sed 's#^knowledgeislands/##' "$RUNNER_TEMP/release-consumers" | paste -sd, -)
+          echo "repositories=$repositories" >> "$GITHUB_OUTPUT"
+      - name: Create tools release bot token
         if: steps.releases.outputs.found == 'true'
         id: release-bot
         uses: actions/create-github-app-token@v2
         with:
-          app-id: ${{ vars.KI_RELEASE_BOT_APP_ID }}
-          private-key: ${{ secrets.KI_RELEASE_BOT_PRIVATE_KEY }}
+          app-id: ${{ vars.KI_TOOLS_RELEASE_BOT_APP_ID }}
+          private-key: ${{ secrets.KI_TOOLS_RELEASE_BOT_PRIVATE_KEY }}
           owner: knowledgeislands
-          repositories: ki-website
-      - name: Dispatch verified formula releases
+          repositories: ${{ steps.consumers.outputs.repositories }}
+      - name: Dispatch verified tool releases
         if: steps.releases.outputs.found == 'true'
         env:
           GH_TOKEN: ${{ steps.release-bot.outputs.token }}
@@ -130,6 +138,8 @@ jobs:
           set -euo pipefail
           while IFS= read -r release; do
             payload=$(jq -cn --argjson release "$release" --arg tap_commit "$TAP_COMMIT" '{event_type: "tool-release-published", client_payload: ($release + {tap_commit: $tap_commit})}')
-            gh api --method POST repos/knowledgeislands/ki-website/dispatches --input - <<< "$payload"
-            echo "Dispatched $(jq -r '.tool + " " + .version' <<< "$release")" >> "$GITHUB_STEP_SUMMARY"
+            while IFS= read -r consumer; do
+              gh api --method POST "repos/$consumer/dispatches" --input - <<< "$payload"
+              echo "Dispatched $(jq -r '.tool + " " + .version' <<< "$release") to $consumer" >> "$GITHUB_STEP_SUMMARY"
+            done < "$RUNNER_TEMP/release-consumers"
           done < "$RUNNER_TEMP/formula-releases"
