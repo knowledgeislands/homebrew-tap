@@ -1,5 +1,7 @@
 # CLAUDE.md — homebrew-tap
 
+@AGENTS.md
+
 Guidance for Claude Code working in this repo. The user-facing install surface is in [README.md](./README.md); this file covers governance and the formula-maintenance workflow.
 
 ## What this repo is

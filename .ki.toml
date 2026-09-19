@@ -18,9 +18,6 @@ repo_code = "BREW"
 supported_runtimes = ["claude-code", "claude-desktop", "chatgpt-codex"]
 visibility = "public"
 
-# Custom topics describe this Homebrew tap more accurately than the default set.
-checks.topics = false
-
 [skills.ki-authoring]
 
 # -----------------------------------------------------------------------------
