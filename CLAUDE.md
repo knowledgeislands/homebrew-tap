@@ -25,4 +25,6 @@ The checker delegates to `brew audit --strict` / `brew style` when `brew` is on 
 - Add the formula to the formulae table in [README.md](./README.md).
 - Validate: `brew audit --strict --online <formula>` and `brew style <formula>` clean; `brew install --build-from-source <formula>` then `brew test <formula>`.
 
+After a formula-changing push to `main` passes governance, CI extracts the exact source repository and tag from every changed formula and dispatches a `tool-release-published` event to `knowledgeislands/ki-website`. The event is evidence for a website-owned registry pull request, not release authority. Configure the `KI_RELEASE_BOT_APP_ID` repository variable and `KI_RELEASE_BOT_PRIVATE_KEY` Actions secret for a GitHub App installed on `ki-website` with Contents and Pull requests read/write permissions. To retry a transient delivery failure without changing a formula, manually run the CI workflow with the exact formula name, such as `ki`.
+
 The source repo for each tool (e.g. [tools-mgit](https://github.com/knowledgeislands/tools-mgit)) is governed separately by `ki-repo-tools`.

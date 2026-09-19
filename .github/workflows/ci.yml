@@ -4,6 +4,12 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
+    inputs:
+      formula:
+        description: Formula name to re-dispatch after a transient delivery failure
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -57,3 +63,73 @@ jobs:
           printf '%s\n' "$KI_CLI_INSTALL_DIR" >> "$GITHUB_PATH"
       - name: Audit
         run: ki repo audit --repo .
+      - name: Test website release event extraction
+        run: ruby test/website_release_events_test.rb
+
+  notify-website:
+    name: Notify KI Website
+    needs: governance
+    if: >-
+      needs.governance.result == 'success' &&
+      (github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'push' && github.ref == 'refs/heads/main'))
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Select formula releases
+        id: releases
+        env:
+          BEFORE_SHA: ${{ github.event.before }}
+          CURRENT_SHA: ${{ github.sha }}
+          RETRY_FORMULA: ${{ inputs.formula }}
+        run: |
+          set -euo pipefail
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            test "$RETRY_FORMULA" = "${RETRY_FORMULA##*/}"
+            test "$RETRY_FORMULA" = "${RETRY_FORMULA%.rb}"
+            formulas="Formula/$RETRY_FORMULA.rb"
+            test -f "$formulas"
+          elif [[ "$BEFORE_SHA" =~ ^0+$ ]]; then
+            formulas=$(git diff-tree --no-commit-id --name-only -r "$CURRENT_SHA" -- 'Formula/*.rb')
+          else
+            formulas=$(git diff --name-only "$BEFORE_SHA" "$CURRENT_SHA" -- 'Formula/*.rb')
+          fi
+
+          : > "$RUNNER_TEMP/formula-releases"
+          if [[ -n "$formulas" ]]; then
+            while IFS= read -r formula; do
+              ruby scripts/website-release-events.rb "$formula" >> "$RUNNER_TEMP/formula-releases"
+            done <<< "$formulas"
+          fi
+
+          if [[ -s "$RUNNER_TEMP/formula-releases" ]]; then
+            echo "found=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "found=false" >> "$GITHUB_OUTPUT"
+            echo "No formula release changes to notify." >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Create release-bot token
+        if: steps.releases.outputs.found == 'true'
+        id: release-bot
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ vars.KI_RELEASE_BOT_APP_ID }}
+          private-key: ${{ secrets.KI_RELEASE_BOT_PRIVATE_KEY }}
+          owner: knowledgeislands
+          repositories: ki-website
+      - name: Dispatch verified formula releases
+        if: steps.releases.outputs.found == 'true'
+        env:
+          GH_TOKEN: ${{ steps.release-bot.outputs.token }}
+          TAP_COMMIT: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          while IFS= read -r release; do
+            payload=$(jq -cn --argjson release "$release" --arg tap_commit "$TAP_COMMIT" '{event_type: "tool-release-published", client_payload: ($release + {tap_commit: $tap_commit})}')
+            gh api --method POST repos/knowledgeislands/ki-website/dispatches --input - <<< "$payload"
+            echo "Dispatched $(jq -r '.tool + " " + .version' <<< "$release")" >> "$GITHUB_STEP_SUMMARY"
+          done < "$RUNNER_TEMP/formula-releases"

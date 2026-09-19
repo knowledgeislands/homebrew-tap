@@ -3,12 +3,12 @@ id: BREW-003
 title: Dispatch website release
 theme: formula-coverage
 horizon: now
-status: ready
+status: in-progress
 blocks: []
 blocked_by: []
-baseline_ref: null
+baseline_ref: a0b9ede635472e46c13b0265d3ee64b5dad49d0f
 created_at: 2026-09-19T09:26:42Z
-updated_at: 2026-09-19T09:26:42Z
+updated_at: 2026-09-19T09:57:27Z
 ---
 
 # Dispatch Website Release
@@ -31,10 +31,10 @@ The tap validates repository governance on pushes and pull requests. It has no p
 
 ## Steps
 
-- [ ] Extract changed formula release identities deterministically from a validated main-branch push, with a manual exact-formula retry path.
-- [ ] Test duplicate URLs, malformed formulae, non-release URLs, and valid multi-platform formulae.
-- [ ] Dispatch one bounded `tool-release-published` payload per changed formula only after governance succeeds.
-- [ ] Authenticate with a narrowly installed GitHub App and fail closed when release identity cannot be proven.
+- [x] Extract changed formula release identities deterministically from a validated main-branch push, with a manual exact-formula retry path.
+- [x] Test duplicate URLs, malformed formulae, non-release URLs, and valid multi-platform formulae.
+- [x] Dispatch one bounded `tool-release-published` payload per changed formula only after governance succeeds.
+- [x] Authenticate with a narrowly installed GitHub App and fail closed when release identity cannot be proven.
 - [ ] Document setup and retry behaviour, then run tests and repository audits.
 
 ## Files touched
