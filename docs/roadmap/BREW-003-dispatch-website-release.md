@@ -3,12 +3,12 @@ id: BREW-003
 title: Dispatch website release
 theme: formula-coverage
 horizon: now
-status: in-progress
+status: awaiting-review
 blocks: []
 blocked_by: []
 baseline_ref: a0b9ede635472e46c13b0265d3ee64b5dad49d0f
 created_at: 2026-09-19T09:26:42Z
-updated_at: 2026-09-19T09:57:27Z
+updated_at: 2026-09-19T10:00:00Z
 ---
 
 # Dispatch Website Release
@@ -35,7 +35,7 @@ The tap validates repository governance on pushes and pull requests. It has no p
 - [x] Test duplicate URLs, malformed formulae, non-release URLs, and valid multi-platform formulae.
 - [x] Dispatch one bounded `tool-release-published` payload per changed formula only after governance succeeds.
 - [x] Authenticate with a narrowly installed GitHub App and fail closed when release identity cannot be proven.
-- [ ] Document setup and retry behaviour, then run tests and repository audits.
+- [x] Document setup and retry behaviour, then run tests and repository audits.
 
 ## Files touched
 
@@ -77,6 +77,32 @@ Extend the repository maintenance guidance with the post-CI website notification
 ### Roadmap
 
 Coordinate with `KI-WEB-SITE-012`; no further tap work is expected after the receiver and dispatcher are proven.
+
+## Review
+
+### Delivered
+
+Delivered the approved dispatcher boundary from baseline `a0b9ede635472e46c13b0265d3ee64b5dad49d0f`, with implementation evidence at `b028d4139025c5fcef91b585c1438c8c9fbddc7e`. After successful governance on a `main` formula change, the tap extracts exact release evidence and dispatches one bounded website event; manual retry remains exact-formula only, and the tap neither edits the website nor selects a release independently.
+
+### Summary of changes
+
+Added `scripts/website-release-events.rb` and its Minitest suite, extended `.github/workflows/ci.yml` with post-governance dispatch and manual retry, and documented GitHub App configuration and retry behaviour in `CLAUDE.md`. The workflow mints a token restricted to `ki-website` and stops on unsupported, missing, or inconsistent formula release URLs.
+
+### Verification
+
+`ruby test/website_release_events_test.rb` passed 5 tests and 12 assertions; pinned Actionlint 1.7.12 passed the changed workflow; the extractor produced the expected `knowledgeislands/tools-ki` v0.4.0 payload for `Formula/ki.rb`; and the focused roadmap audit passed. A whole-repository audit from the temporary worktree reported only runtime-activation and local-registry findings caused by the temporary physical root rather than repository content.
+
+### Outstanding concerns
+
+The GitHub App variable, private-key secret, installation permissions, and first live cross-repository dispatch cannot be proven locally. Their absence fails the notification job closed and remains an operational setup step documented in `CLAUDE.md`.
+
+### Post-change review
+
+The implementation stays within the approved post-governance, changed-formula, evidence-only event boundary. Tests cover multi-platform duplication, tag archives, missing and unsupported URLs, and inconsistent versions; the explicit manual retry validates one existing formula. The item is ready for acceptance subject to the stated live-credential concern.
+
+### Mini recap
+
+The Homebrew tap now has a tested dispatcher for verified formula releases, coordinated with the already integrated KI Website receiver. Verification is clean apart from environment-only findings in the temporary worktree; no additional durable learning route is required beyond the updated maintenance guidance.
 
 ## Discussion
 
