@@ -3,12 +3,12 @@ id: BREW-004
 title: Fan out tool releases
 theme: formula-coverage
 horizon: now
-status: awaiting-review
+status: done
 blocks: []
 blocked_by: []
 baseline_ref: ee39d7831af8c7f114933a636b534f7e52ab9f53
 created_at: 2026-09-19T17:39:47Z
-updated_at: 2026-09-19T17:48:11Z
+updated_at: 2026-09-20T07:05:21Z
 ---
 
 # Fan Out Tool Releases
@@ -104,6 +104,10 @@ The registry is explicit, sorted, unique, organization-scoped, and fail-closed. 
 ### Mini recap
 
 The Homebrew tap now provides a generic release-event fan-out for every packaged Knowledge Islands tool, with KI Website as the first consumer. Local focused gates and hosted governance CI pass; operational App provisioning remains the only live cutover step.
+
+## Done
+
+Accepted 2026-09-20 by Kris Brown on the review packet above, with authority to complete the operational cutover and prune the retained record after this closure lands.
 
 ## Discussion
 
