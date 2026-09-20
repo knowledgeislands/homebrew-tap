@@ -2,13 +2,13 @@
 id: BREW-005
 title: Provision release bot
 theme: formula-coverage
-horizon: triage
+horizon: waiting-for
 status: draft
 blocks: []
 blocked_by: []
 baseline_ref: null
 created_at: 2026-09-20T07:34:49Z
-updated_at: 2026-09-20T07:34:49Z
+updated_at: 2026-09-20T07:47:23Z
 ---
 
 ## Goal
@@ -24,6 +24,10 @@ Each consumer repository independently owns its receiver workflow and installati
 ## Boundary
 
 Do not commit credentials, broaden the App beyond listed consumers, grant merge or deployment authority, or make Homebrew Tap own consumer-side policy. Provisioning must preserve the existing bounded evidence event and each receiver's independent validation and review boundary.
+
+## Waiting for
+
+Return when the shared GitHub App identity is available, KI Website has approved its installation, and the Homebrew Tap repository can receive `KI_TOOLS_RELEASE_BOT_APP_ID` plus `KI_TOOLS_RELEASE_BOT_PRIVATE_KEY` through GitHub's secret settings without exposing their values.
 
 ## Discussion
 
