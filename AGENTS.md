@@ -13,8 +13,8 @@ This repository packages Knowledge Islands command-line tools for Homebrew. Tool
 ## Verification
 
 ```sh
-ruby test/website_release_events_test.rb
-ruby -c scripts/website-release-events.rb
+ruby test/tool_release_events_test.rb
+ruby -c scripts/tool-release-events.rb
 ki repo audit --repo .
 ```
 
