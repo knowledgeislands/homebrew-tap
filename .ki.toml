@@ -58,4 +58,5 @@ routes."knowledgeislands/tools-ki" = { import = ["work"] }
 routes."knowledgeislands/tools-mgit" = { import = ["work"] }
 
 [skills.ki-agora]
-memberships.ki-all = { home = "https://github.com/knowledgeislands/ki-agentic-harness", role = "maintainer" }
+memberships.ki-all = { home = "https://github.com/knowledgeislands/ki-arcadia-principal", role = "distribution" }
+memberships.ki-tools = { home = "https://github.com/knowledgeislands/ki-arcadia-principal", role = "distribution" }
