@@ -85,7 +85,7 @@ Coordinate with website item `KI-WEB-SITE-013`; future consumers opt in through 
 
 Delivered the approved fan-out boundary from baseline `ee39d7831af8c7f114933a636b534f7e52ab9f53`, with implementation evidence at `d83e2fb02c9ac44fe56c6e081cda70f9c0edc97d`. The tap now accepts only `knowledgeislands/tools-*` release URLs, resolves a committed consumer registry, and sends the same bounded evidence event to every configured repository.
 
-### Summary of changes
+### Change Summary
 
 Replaced the website-specific extractor and tests with `scripts/tool-release-events.rb` and its 11-test suite; added `.github/tool-release-consumers.json`; generalized the CI job, token scope, credential names, summaries, and nested fan-out; documented opt-in and permission boundaries in `CLAUDE.md`.
 
