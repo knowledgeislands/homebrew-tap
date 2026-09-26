@@ -53,9 +53,22 @@ themes = ["formula-coverage"]
 # -----------------------------------------------------------------------------
 
 [skills.ki-trades]
-routes."knowledgeislands/tools-git-almanac" = { import = ["work"] }
-routes."knowledgeislands/tools-ki" = { import = ["work"] }
-routes."knowledgeislands/tools-mgit" = { import = ["work"] }
+
+[skills.ki-trades.routes."knowledgeislands/ki-agentic-harness"]
+export = ["work", "knowledge"]
+import = ["knowledge"]
+
+[skills.ki-trades.routes."knowledgeislands/ki-agentic-harness".standing.export]
+knowledge = ["shared-capability-maintenance"]
+
+[skills.ki-trades.routes."knowledgeislands/tools-git-almanac"]
+import = ["work"]
+
+[skills.ki-trades.routes."knowledgeislands/tools-ki"]
+import = ["work"]
+
+[skills.ki-trades.routes."knowledgeislands/tools-mgit"]
+import = ["work"]
 
 [skills.ki-agora]
 memberships.ki-all = { home = "https://github.com/knowledgeislands/ki-arcadia-principal", role = "distribution" }
