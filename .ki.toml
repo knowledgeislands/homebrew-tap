@@ -11,6 +11,8 @@
 harnesses = ["knowledgeislands/ki-agentic-harness"]
 
 [skills.ki-repo]
+repo_type = "project"
+primary_shape = "ki-repo-homebrew-tap"
 repository = "https://github.com/knowledgeislands/homebrew-tap"
 title = "knowledgeislands/homebrew-tap"
 description = "Homebrew formulae for Knowledge Islands command-line tools."
