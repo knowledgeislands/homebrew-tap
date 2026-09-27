@@ -19,6 +19,11 @@ supported_runtimes = ["claude-code", "claude-desktop", "chatgpt-codex"]
 visibility = "public"
 
 [skills.ki-authoring]
+[skills.ki-binding]
+[skills.ki-binding-claude]
+[skills.ki-binding-chatgpt]
+[skills.ki-housekeeping-chatgpt]
+auto_memory = "disabled"
 
 # -----------------------------------------------------------------------------
 # Repository shape
@@ -31,6 +36,9 @@ visibility = "public"
 # -----------------------------------------------------------------------------
 # Change management
 # -----------------------------------------------------------------------------
+
+[skills.ki-agent-coordination-paperclip]
+organisation_code = "KIS"
 
 [skills.ki-git]
 
@@ -47,7 +55,7 @@ auto_memory = "transition"
 
 [skills.ki-tokenomics-claude]
 
-[skills.ki-tokenomics-codex]
+[skills.ki-tokenomics-chatgpt]
 
 # -----------------------------------------------------------------------------
 # Relationships
@@ -72,5 +80,4 @@ import = ["work"]
 import = ["work"]
 
 [skills.ki-agora]
-memberships.ki-all = { home = "https://github.com/knowledgeislands/ki-arcadia-principal", role = "distribution" }
-memberships.ki-tools = { home = "https://github.com/knowledgeislands/ki-arcadia-principal", role = "distribution" }
+memberships.kis = { home = "https://github.com/knowledgeislands/ki-arcadia-principal", role = "distribution" }
