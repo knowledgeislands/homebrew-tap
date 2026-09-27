@@ -43,6 +43,7 @@ themes = ["formula-coverage"]
 [skills.ki-tokenomics]
 
 [skills.ki-housekeeping-claude]
+auto_memory = "transition"
 
 [skills.ki-tokenomics-claude]
 
