@@ -78,6 +78,3 @@ import = ["work"]
 
 [skills.ki-trades.routes."knowledgeislands/tools-mgit"]
 import = ["work"]
-
-[skills.ki-agora]
-memberships.kis = { home = "https://github.com/knowledgeislands/ki-arcadia-principal" }
