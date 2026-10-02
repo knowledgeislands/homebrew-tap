@@ -57,6 +57,7 @@ Full command documentation lives with each tool, in the source repository linked
 | `ki` | Knowledge Islands command-line interface. | [tools-ki](https://github.com/knowledgeislands/tools-ki) |
 | `mgit` | Run commands across many git repositories at once. | [tools-mgit](https://github.com/knowledgeislands/tools-mgit) |
 | `rig` | Describe and manage a person's working setup. | [tools-rig](https://github.com/knowledgeislands/tools-rig) |
+| `techne` | Operate the Techne Harness. | [tools-techne](https://github.com/knowledgeislands/tools-techne) |
 
 ## Maintainers
 
