@@ -2,13 +2,13 @@
 id: BREW-007
 title: Automate verified formula updates
 theme: formula-coverage
-horizon: next
+horizon: waiting-for
 status: draft
 blocks: []
 blocked_by: []
 baseline_ref: null
 created_at: 2026-10-03T03:56:54Z
-updated_at: 2026-10-03T03:56:54Z
+updated_at: 2026-10-03T06:48:30Z
 ---
 
 ## Goal
@@ -25,12 +25,13 @@ The upstream tool owns release publication and artifact identity. This tap owns 
 
 ## Current state
 
-Formula update proposals are manual and only post-merge consumer dispatch is automated. Required formula checks and protected auto-merge are absent.
+Local release intake now proposes updates from the latest published immutable upstream release for existing formulae, and changed-formula CI runs the Homebrew gates before post-merge consumer dispatch. Neither workflow is published yet. Protected auto-merge and live end-to-end evidence are absent.
 
 ## Steps
 
-- [ ] Design enrolled immutable-release intake and exact formula PR generation, including retry and rejection cases.
-- [ ] Put changed-formula Homebrew checks into CI and make them required without App bypass.
+- [x] Implement enrolled immutable-release intake and exact formula PR generation, including idempotent and rejection cases.
+- [x] Put changed-formula Homebrew checks into CI.
+- [ ] Publish the workflows and make changed-formula checks required without App bypass.
 - [ ] Enable exact routine-update auto-merge while retaining human review for exceptions.
 - [ ] Verify a bounded dry run and a future authorised live immutable release handoff.
 
@@ -48,7 +49,7 @@ Run the repository audit, release-event tests, changed-formula Homebrew gates, a
 
 ## Dependencies / blocks
 
-No technical prerequisite prevents design and CI work. Activating auto-merge depends on passing formula gates, required branch rules, and App permission review. Existing mutable releases do not qualify.
+Waiting for the local workflow commits to reach GitHub, the shared App to be confirmed with tap Contents and Pull requests write permissions, and `main` to require passing governance and Homebrew formula gates without App bypass. Then enable auto-merge and prove a qualifying immutable source release reaches a guarded formula merge and website dispatch. Existing mutable releases do not qualify.
 
 ## Documentation impact
 
@@ -77,3 +78,7 @@ Design a tap-owned source-release intake that verifies repository enrolment, imm
 ### Receiver coordination
 
 The website receives only the post-merge tap event. Its separate auto-acceptance boundary belongs to `ki-website`; this record does not alter it.
+
+### Local preparation
+
+The scheduled intake is intentionally PR-only. Its source release check rejects mutable and prerelease entries, and its existing-formula boundary leaves first-time formulae for manual review. The Homebrew job is configured but cannot count as a required hosted check until branch rules are installed and a changed-formula PR proves it passes.

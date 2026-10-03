@@ -67,11 +67,52 @@ jobs:
       - name: Test tool release event extraction and consumers
         run: ruby test/tool_release_events_test.rb
 
+  formula-gates:
+    name: Homebrew formula gates
+    runs-on: macos-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify changed formulae
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+          RETRY_FORMULA: ${{ inputs.formula }}
+        run: |
+          set -euo pipefail
+          if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
+            name=${RETRY_FORMULA##*/}
+            name=${name%.rb}
+            [[ "$name" =~ ^[a-z0-9]+(-[a-z0-9]+)*$ ]]
+            formulae="Formula/$name.rb"
+          elif [[ -n "$BASE_SHA" && ! "$BASE_SHA" =~ ^0+$ ]]; then
+            formulae=$(git diff --name-only "$BASE_SHA" "$GITHUB_SHA" -- 'Formula/*.rb')
+          else
+            formulae=$(git diff-tree --no-commit-id --name-only -r "$GITHUB_SHA" -- 'Formula/*.rb')
+          fi
+          if [[ -z "$formulae" ]]; then
+            echo "No changed formulae to verify." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          brew tap knowledgeislands/tap "$GITHUB_WORKSPACE"
+          while IFS= read -r formula; do
+            [[ "$formula" =~ ^Formula/[a-z0-9]+(-[a-z0-9]+)*\.rb$ ]]
+            test -f "$formula"
+            name=${formula#Formula/}
+            name=${name%.rb}
+            brew style "$formula"
+            brew audit --strict --online "knowledgeislands/tap/$name"
+            brew install --build-from-source "knowledgeislands/tap/$name"
+            brew test "knowledgeislands/tap/$name"
+          done <<< "$formulae"
+
   notify-consumers:
     name: Notify release consumers
-    needs: governance
+    needs: [governance, formula-gates]
     if: >-
-      needs.governance.result == 'success' &&
+      needs.governance.result == 'success' && needs.formula-gates.result == 'success' &&
       (github.event_name == 'workflow_dispatch' ||
       (github.event_name == 'push' && github.ref == 'refs/heads/main'))
     runs-on: ubuntu-latest

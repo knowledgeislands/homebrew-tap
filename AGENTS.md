@@ -14,7 +14,9 @@ This repository packages Knowledge Islands command-line tools for Homebrew. Tool
 
 ```sh
 ruby test/tool_release_events_test.rb
+ruby test/propose_tool_release_test.rb
 ruby -c scripts/tool-release-events.rb
+ruby -c scripts/propose-tool-release.rb
 ki repo audit --repo .
 ```
 

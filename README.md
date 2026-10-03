@@ -65,6 +65,8 @@ Full command documentation lives with each tool, in the source repository linked
 
 ## Contributing
 
+The scheduled release intake checks each existing formula's latest upstream release. It prepares a pull request only for a newer published immutable release, with archive URLs and SHA-256 values taken from the release artifacts. Mutable releases, first-time formulae, and unexpected formula shapes remain manual. Changed-formula CI runs Homebrew style, strict online audit, build-from-source install, and test; the post-merge website dispatch still occurs only after the formula reaches `main`. Automatic PR acceptance is not active until required checks, branch protection, and the release bot's non-bypass permissions are configured and verified.
+
 Packaging issues — a formula that fails to install, a stale version, a missing platform — belong in [this repository's issues](https://github.com/knowledgeislands/homebrew-tap/issues). Bugs and feature requests for a tool itself belong in that tool's own repository, linked from the table above.
 
 PRs are welcome. A formula change should keep `brew audit --strict --online <formula>` and `brew style <formula>` clean, and `brew test <formula>` passing after `brew install --build-from-source <formula>`; [CLAUDE.md](./CLAUDE.md) records the full maintenance workflow.

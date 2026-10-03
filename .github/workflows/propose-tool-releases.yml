@@ -1,0 +1,63 @@
+name: Propose tool releases
+
+on:
+  schedule:
+    - cron: '17 */3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  propose:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create tap-scoped release bot token
+        id: release-bot
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ vars.KI_TOOLS_RELEASE_BOT_APP_ID }}
+          private-key: ${{ secrets.KI_TOOLS_RELEASE_BOT_PRIVATE_KEY }}
+          owner: knowledgeislands
+          repositories: homebrew-tap
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ steps.release-bot.outputs.token }}
+      - name: Test release proposal
+        run: ruby test/propose_tool_release_test.rb
+      - name: Propose immutable release updates
+        env:
+          GH_TOKEN: ${{ steps.release-bot.outputs.token }}
+        run: |
+          set -euo pipefail
+          git config user.name 'ki-tools-release-bot[bot]'
+          git config user.email 'ki-tools-release-bot[bot]@users.noreply.github.com'
+          for formula in Formula/*.rb; do
+            details=$(ruby scripts/tool-release-events.rb release "$formula")
+            repository=$(jq -r .source_repository <<< "$details")
+            name=$(jq -r .tool <<< "$details")
+            gh api "repos/$repository/releases/latest" > "$RUNNER_TEMP/latest-release.json"
+            version=$(jq -r .tag_name "$RUNNER_TEMP/latest-release.json")
+            if [[ $(jq -r .immutable "$RUNNER_TEMP/latest-release.json") != true ]]; then
+              echo "$name: latest release is not immutable; skipped." >> "$GITHUB_STEP_SUMMARY"
+              continue
+            fi
+            ruby scripts/propose-tool-release.rb "$formula" "$RUNNER_TEMP/latest-release.json"
+            if git diff --quiet -- "$formula"; then
+              continue
+            fi
+            branch="automation/formula-$name-$version"
+            if git ls-remote --exit-code --heads origin "$branch" > /dev/null; then
+              echo "$name $version: proposal branch already exists; inspect its PR." >> "$GITHUB_STEP_SUMMARY"
+              git restore -- "$formula"
+              continue
+            fi
+            git switch -c "$branch"
+            git add -- "$formula"
+            git commit -m "chore(formula): advance $name to $version"
+            git push origin "HEAD:refs/heads/$branch"
+            gh pr create --base main --head "$branch" --title "Advance $name to $version" \
+              --body "Exact formula update for immutable $repository@$version. Homebrew formula gates and human review are required until protected auto-merge is activated."
+            echo "$name $version: formula PR opened; awaiting guarded acceptance." >> "$GITHUB_STEP_SUMMARY"
+            git switch main
+          done
