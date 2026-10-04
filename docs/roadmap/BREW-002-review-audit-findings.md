@@ -3,12 +3,12 @@ id: BREW-002
 title: Review audit findings
 theme: formula-coverage
 horizon: next
-status: ready
+status: awaiting-review
 blocks: []
 blocked_by: []
-baseline_ref: null
+baseline_ref: edaf58c2b8104e3195d938fb4067f2ff24d4367b
 created_at: 2026-09-04T08:53:43Z
-updated_at: 2026-10-04T12:16:13Z
+updated_at: 2026-10-04T12:16:27Z
 ---
 
 ## Goal
@@ -29,9 +29,9 @@ This is a discussion proposal only. It is not accepted, prioritised, or implemen
 
 ## Steps
 
-- [ ] Confirm the memory index does not belong in this repository: auto-memory is disabled by owner policy, so `IDX-1` no longer applies.
-- [ ] Confirm the closing evidence: the focused and full audits pass on current `main`, with no `IDX-1` finding.
-- [ ] Record the resolution in this record; no repository file other than this record changes.
+- [x] Confirm the memory index does not belong in this repository: auto-memory is disabled by owner policy, so `IDX-1` no longer applies.
+- [x] Confirm the closing evidence: the focused and full audits pass on current `main`, with no `IDX-1` finding.
+- [x] Record the resolution in this record; no repository file other than this record changes.
 
 ## Files touched
 
@@ -62,6 +62,34 @@ None.
 ### Roadmap
 
 This record only.
+
+## Review
+
+### Delivered
+
+`IDX-1` is resolved without remediation: the owner disabled Claude auto-memory for this repository in `e6bce12`, so no memory index belongs here, and both the focused `ki-housekeeping-claude` audit and the full repository audit pass on current `main`.
+
+### Change Summary
+
+This record only: adopted, shaped and closed on evidence. No repository configuration or content changed.
+
+### Verification
+
+- `.ki.toml` declares `auto_memory = "disabled"` under `[skills.ki-housekeeping-claude]`.
+- `ki repo audit --skill ki-housekeeping-claude --repo .`: PASS at `edaf58c`.
+- `ki repo audit --repo .`: PASS, no `IDX-1` finding.
+
+### Outstanding concerns
+
+The original audit output behind `IDX-1` was never recovered; closure rests on the current audit and the owner's committed policy, which is the evidence the Steps call for.
+
+### Post-change review
+
+Disabling auto-memory is the exception the record's Goal anticipated, made explicit in tracked configuration rather than in prose, so it is audited on every run.
+
+### Mini recap
+
+The stale memory-index finding is closed by the owner's existing decision to disable Claude auto-memory here; nothing else needed to change.
 
 ## Discussion
 
