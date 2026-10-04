@@ -3,12 +3,12 @@ id: BREW-002
 title: Review audit findings
 theme: formula-coverage
 horizon: next
-status: awaiting-review
+status: done
 blocks: []
 blocked_by: []
 baseline_ref: edaf58c2b8104e3195d938fb4067f2ff24d4367b
 created_at: 2026-09-04T08:53:43Z
-updated_at: 2026-10-04T12:16:27Z
+updated_at: 2026-10-04T16:27:49Z
 ---
 
 ## Goal
@@ -21,7 +21,7 @@ The audit reported `ki-housekeeping-claude` criterion `IDX-1`: the expected Clau
 
 ## Boundary
 
-This is a discussion proposal only. It is not accepted, prioritised, or implementation authority.
+Resolve the `IDX-1` finding on evidence only. Do not add a memory index or change `.ki.toml`; the owner's committed auto-memory policy is the authority. (Originally captured as a discussion proposal; adopted on 2026-10-04 as recorded under Adoption.)
 
 ## Current state
 
@@ -90,6 +90,10 @@ Disabling auto-memory is the exception the record's Goal anticipated, made expli
 ### Mini recap
 
 The stale memory-index finding is closed by the owner's existing decision to disable Claude auto-memory here; nothing else needed to change.
+
+## Done
+
+Accepted 2026-10-04 on the review packet above, under the owner's delegated estate-push authority following an independent Fable review, which returned ACCEPT: closing on the owner's own `e6bce12` exception adds no scope, both audits pass at `a9c502a` with no `IDX-1` finding, and the record is well-formed. The reviewer's stale-Boundary nit is corrected in this commit; the delegated-authority claim is for Kris to confirm.
 
 ## Discussion
 
