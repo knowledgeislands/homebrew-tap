@@ -5,20 +5,20 @@ class Techne < Formula
 
   on_arm do
     on_macos do
-      url "https://github.com/knowledgeislands/tools-techne/releases/download/v0.1.1/techne-v0.1.1-darwin-arm64.tar.gz"
-      sha256 "801ca00678185f8134a0d5f4feb652fae7f49a2f6d239f03e0410c1143de4b45"
+      url "https://github.com/knowledgeislands/tools-techne/releases/download/v0.2.0/techne-v0.2.0-darwin-arm64.tar.gz"
+      sha256 "0cc49516ea273aaa485fc327d2f3ce7d7ed48d236ca9021d1a1a9d207d84710f"
     end
   end
 
   on_intel do
     on_macos do
-      url "https://github.com/knowledgeislands/tools-techne/releases/download/v0.1.1/techne-v0.1.1-darwin-x64.tar.gz"
-      sha256 "b9e8c99ac525ac6e8b218063403e4c9b074bfd5a756d44bfa1ae85b9c316a059"
+      url "https://github.com/knowledgeislands/tools-techne/releases/download/v0.2.0/techne-v0.2.0-darwin-x64.tar.gz"
+      sha256 "7a636c1f1f185da69c142cab866e1121254fcb7fe548809b40af7e184b53a079"
     end
 
     on_linux do
-      url "https://github.com/knowledgeislands/tools-techne/releases/download/v0.1.1/techne-v0.1.1-linux-x64.tar.gz"
-      sha256 "ca368e4d2e91e8dd19bfc938fa22fa2bc4127658a288f792b8bec47df7d4d8c2"
+      url "https://github.com/knowledgeislands/tools-techne/releases/download/v0.2.0/techne-v0.2.0-linux-x64.tar.gz"
+      sha256 "2865202472fe645deae268c6574b7069b6ce5952313619e3574a133aa3cb89b4"
     end
   end
 
