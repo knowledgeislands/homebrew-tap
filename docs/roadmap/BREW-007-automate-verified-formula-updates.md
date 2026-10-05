@@ -3,12 +3,12 @@ id: BREW-007
 title: Automate verified formula updates
 theme: formula-coverage
 horizon: now
-status: awaiting-review
+status: done
 blocks: []
 blocked_by: [BREW-008]
 baseline_ref: 7e5fbdea9a686bd96b68a490704642bc89c26216
 created_at: 2026-10-03T03:56:54Z
-updated_at: 2026-10-05T10:57:00Z
+updated_at: 2026-10-05T11:32:00Z
 ---
 
 ## Goal
@@ -112,12 +112,12 @@ Kris's 2026-10-05 decision within the planned boundary: event-driven tap intake 
 - `ki repo audit --progress never`: PASS in tools-ki (22 skills), tools-techne (19), tools-git-almanac (21), tools-mgit (19), tools-rig (20) before their commits, and in homebrew-tap (17) before this commit.
 - `gh api repos/knowledgeislands/homebrew-tap/rules/branches/main`: `deletion`, `non_fast_forward`, `pull_request`, `required_status_checks`; `allow_auto_merge` reads back `true`.
 - Each tool commit touches only its workflow and release guide.
-- Post-push `CI` on `main` under the ruleset: see the Mini recap.
+- Post-push `CI` on `main` under the ruleset: run `37299678913` on `0ac4af2` succeeded.
 
 ### Outstanding concerns
 
 - Live operation awaits Kris: install the App on homebrew-tap and provide the App ID and key to the tool repositories; until then the tap's scheduled intake keeps failing at token creation and the notify jobs are skipped. BREW-010 owns the proof.
-- tools-ki `release.yml` `verify-release-install` still calls the retired `ki manage diag`, so the next tools-ki release will fail that job after publication; tools-ki owns the fix. The tap notify job does not depend on it.
+- tools-ki `release.yml` `verify-release-install` called the retired `ki manage diag`, so the next tools-ki release would have failed that job after publication; tools-ki owns the fix and delivered it as `KI-TOOL-CLI-103` in tools-ki `20f99e6` (accepted in `e5bb8ff`), which moves both its CI and release verification to `ki diag`. The tap notify job never depended on it.
 - mgit `v0.14.0`, rig `v0.2.0` and git-almanac `v0.1.0` are mutable and stay skipped until their next immutable release.
 
 ### Post-change review
@@ -126,7 +126,11 @@ The goal - routine formula updates without human steps after an immutable releas
 
 ### Mini recap
 
-Delivered event-driven intake, auto-merge and the `main` ruleset, with release-bot dispatch jobs in the five tool repositories committed separately. Static, test and audit gates pass. Learning routes: the tools-ki `ki manage diag` call in `release.yml` for tools-ki, and BREW-010 for live evidence.
+Delivered event-driven intake, auto-merge and the `main` ruleset, with release-bot dispatch jobs in the five tool repositories committed separately. Static, test and audit gates pass. Learning routes: the tools-ki `ki manage diag` call, since fixed in tools-ki as `KI-TOOL-CLI-103` (`20f99e6`), and BREW-010 for live evidence.
+
+## Done
+
+Accepted 2026-10-05 on the review packet above, under the owner's delegated estate-push authority following independent Fable review against live state. The reviewer confirmed `allow_auto_merge=true`; ruleset `24497437` active with zero-approval squash-only pull requests, the two required checks from integration `15368`, a non-strict policy and admin-only bypass with no App actor; the intake triggers, dispatch validation, non-cancelling concurrency and `gh pr merge --auto --squash` at `0ac4af2` with eligibility rules unchanged; both Ruby suites and actionlint clean; CI run `37299678913` green; and the guarded, tap-scoped `notify-homebrew-tap` dispatch in all five tool repositories. Live end-to-end proof is not part of this acceptance: it awaits Kris's App installation and credentials and is owned by [BREW-010](BREW-010-prove-live-release-intake.md). Left at `done` for the owner's review.
 
 ## Discussion
 
