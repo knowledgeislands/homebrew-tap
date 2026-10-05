@@ -1,12 +1,18 @@
 name: Propose tool releases
 
 on:
+  repository_dispatch:
+    types: [tool-release-published]
   schedule:
-    - cron: '17 */3 * * *'
+    - cron: '17 6 * * *'
   workflow_dispatch:
 
 permissions:
   contents: read
+
+concurrency:
+  group: propose-tool-releases
+  cancel-in-progress: false
 
 jobs:
   propose:
@@ -23,6 +29,22 @@ jobs:
       - uses: actions/checkout@v4
         with:
           token: ${{ steps.release-bot.outputs.token }}
+      - name: Validate release dispatch
+        if: github.event_name == 'repository_dispatch'
+        env:
+          SOURCE_REPOSITORY: ${{ github.event.client_payload.repository }}
+          SOURCE_TAG: ${{ github.event.client_payload.tag }}
+        run: |
+          set -euo pipefail
+          [[ "$SOURCE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "invalid release tag: $SOURCE_TAG" >&2; exit 1; }
+          for formula in Formula/*.rb; do
+            if [[ $(ruby scripts/tool-release-events.rb release "$formula" | jq -r .source_repository) == "$SOURCE_REPOSITORY" ]]; then
+              echo "Release dispatch: $SOURCE_REPOSITORY $SOURCE_TAG; scanning every formula." >> "$GITHUB_STEP_SUMMARY"
+              exit 0
+            fi
+          done
+          echo "repository is not a tapped formula source: $SOURCE_REPOSITORY" >&2
+          exit 1
       - name: Test release proposal
         run: ruby test/propose_tool_release_test.rb
       - name: Propose immutable release updates
@@ -57,7 +79,8 @@ jobs:
             git commit -m "chore(formula): advance $name to $version"
             git push origin "HEAD:refs/heads/$branch"
             gh pr create --base main --head "$branch" --title "Advance $name to $version" \
-              --body "Exact formula update for immutable $repository@$version. Homebrew formula gates and human review are required until protected auto-merge is activated."
-            echo "$name $version: formula PR opened; awaiting guarded acceptance." >> "$GITHUB_STEP_SUMMARY"
+              --body "Exact formula update for immutable $repository@$version. Auto-merges by squash once the required KI governance and Homebrew formula gates checks pass."
+            gh pr merge "$branch" --auto --squash
+            echo "$name $version: formula PR opened with auto-merge; awaiting required checks." >> "$GITHUB_STEP_SUMMARY"
             git switch main
           done

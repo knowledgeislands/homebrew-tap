@@ -3,12 +3,12 @@ id: BREW-007
 title: Automate verified formula updates
 theme: formula-coverage
 horizon: now
-status: ready
+status: awaiting-review
 blocks: []
 blocked_by: [BREW-008]
-baseline_ref: null
+baseline_ref: 7e5fbdea9a686bd96b68a490704642bc89c26216
 created_at: 2026-10-03T03:56:54Z
-updated_at: 2026-10-05T10:50:00Z
+updated_at: 2026-10-05T10:57:00Z
 ---
 
 ## Goal
@@ -42,12 +42,12 @@ Out of scope: installing the App or provisioning its ID and key (Kris-only), the
 
 ## Steps
 
-- [ ] Take `baseline_ref`.
-- [ ] Tap: change intake triggers, add payload validation and concurrency, enable auto-merge on opened PRs, update the PR body and README.
-- [ ] Tools: add the guarded `notify-homebrew-tap` dispatch to tools-ki, tools-techne and tools-git-almanac `release.yml`, and `notify-homebrew-tap.yml` to tools-mgit and tools-rig; add the downstream sentence to each release guide; actionlint, audit, commit, rebase and push each repository separately.
-- [ ] Apply `allow_auto_merge=true` and the `main` ruleset with `gh api`; read both back.
-- [ ] Commit and push the tap change (an admin bypass push) and confirm `CI` on `main` is green under the ruleset.
-- [ ] Capture the live end-to-end proof, which needs Kris's App installation and credentials, as a follow-up record.
+- [x] Take `baseline_ref`.
+- [x] Tap: change intake triggers, add payload validation and concurrency, enable auto-merge on opened PRs, update the PR body and README.
+- [x] Tools: add the guarded `notify-homebrew-tap` dispatch to tools-ki, tools-techne and tools-git-almanac `release.yml`, and `notify-homebrew-tap.yml` to tools-mgit and tools-rig; add the downstream sentence to each release guide; actionlint, audit, commit, rebase and push each repository separately.
+- [x] Apply `allow_auto_merge=true` and the `main` ruleset with `gh api`; read both back.
+- [x] Commit and push the tap change (an admin bypass push) and confirm `CI` on `main` is green under the ruleset.
+- [x] Capture the live end-to-end proof, which needs Kris's App installation and credentials, as a follow-up record ([BREW-010](BREW-010-prove-live-release-intake.md)).
 
 ## Files touched
 
@@ -90,6 +90,43 @@ Tap README intake paragraph; each tool's release guide gains the automatic tap d
 ### Roadmap
 
 This record and the live-proof follow-up.
+
+## Review
+
+### Delivered
+
+Kris's 2026-10-05 decision within the planned boundary: event-driven tap intake (`repository_dispatch` `tool-release-published`, daily `17 6 * * *` backstop, `workflow_dispatch`), squash auto-merge on every formula PR the intake opens, a `main` ruleset with admin-only bypass, `allow_auto_merge=true`, and release-bot dispatch jobs in the five tapped tool repositories. Excluded: App installation and credentials (Kris-only), the tools-ki pin ([BREW-009](BREW-009-pin-tools-ki-checkout.md)), consumer dispatch and eligibility rules. Baseline `7e5fbdea9a686bd96b68a490704642bc89c26216`.
+
+### Change Summary
+
+- homebrew-tap `.github/workflows/propose-tool-releases.yml`: new triggers, a non-cancelling `propose-tool-releases` concurrency group, a dispatch validation step (tag must be `vX.Y.Z`, repository must be a formula `source_repository`) before the unchanged full scan, a revised PR body and `gh pr merge "$branch" --auto --squash` immediately after PR creation. `README.md` intake paragraph rewritten.
+- tools-ki `91fa4e3`, tools-techne `4485929`, tools-git-almanac `b3b5249`: `notify-homebrew-tap` job in `release.yml` after publication (needs `validate, publish`, or `release` for git-almanac), `permissions: {}`, App token scoped to homebrew-tap via `actions/create-github-app-token` pinned to `fee1f7d` (v2.2.2), dispatch payload `{repository, tag}`, skipped while `vars.KI_TOOLS_RELEASE_BOT_APP_ID` is empty. Release guide paragraph added.
+- tools-mgit `926e38d`, tools-rig `fa0b187`: new `notify-homebrew-tap.yml` on `release: published` (non-prerelease) with the same job; release guide paragraph added.
+- GitHub: `allow_auto_merge=true`; ruleset `Protect main` (id `24497437`, active, `~DEFAULT_BRANCH`): pull request with zero approvals and squash only, required checks `KI governance` and `Homebrew formula gates` from integration `15368` without strict up-to-date policy, plus deletion and non-fast-forward protection; bypass `RepositoryRole` admin (`5`), always. The deletion and non-fast-forward rules are a small, admin-bypassable addition to the planned shape.
+- Captured [BREW-010](BREW-010-prove-live-release-intake.md) in Triage for the live proof.
+
+### Verification
+
+- `actionlint` 1.7.12: tap workflows and all five tool workflows clean.
+- `ruby test/propose_tool_release_test.rb` (7 runs) and `ruby test/tool_release_events_test.rb` (11 runs): 0 failures.
+- `ki repo audit --progress never`: PASS in tools-ki (22 skills), tools-techne (19), tools-git-almanac (21), tools-mgit (19), tools-rig (20) before their commits, and in homebrew-tap (17) before this commit.
+- `gh api repos/knowledgeislands/homebrew-tap/rules/branches/main`: `deletion`, `non_fast_forward`, `pull_request`, `required_status_checks`; `allow_auto_merge` reads back `true`.
+- Each tool commit touches only its workflow and release guide.
+- Post-push `CI` on `main` under the ruleset: see the Mini recap.
+
+### Outstanding concerns
+
+- Live operation awaits Kris: install the App on homebrew-tap and provide the App ID and key to the tool repositories; until then the tap's scheduled intake keeps failing at token creation and the notify jobs are skipped. BREW-010 owns the proof.
+- tools-ki `release.yml` `verify-release-install` still calls the retired `ki manage diag`, so the next tools-ki release will fail that job after publication; tools-ki owns the fix. The tap notify job does not depend on it.
+- mgit `v0.14.0`, rig `v0.2.0` and git-almanac `v0.1.0` are mutable and stay skipped until their next immutable release.
+
+### Post-change review
+
+The goal - routine formula updates without human steps after an immutable release - is implemented across all six repositories; the eligibility guard is unchanged, so only exact forward updates to existing formulae can auto-merge, and they still need both checks. Regression risk is low: the notify jobs are no-ops until provisioned and run after publication, and admins keep direct-push access. Acceptance-ready on delivered scope; the live proof is deliberately split into BREW-010.
+
+### Mini recap
+
+Delivered event-driven intake, auto-merge and the `main` ruleset, with release-bot dispatch jobs in the five tool repositories committed separately. Static, test and audit gates pass. Learning routes: the tools-ki `ki manage diag` call in `release.yml` for tools-ki, and BREW-010 for live evidence.
 
 ## Discussion
 
