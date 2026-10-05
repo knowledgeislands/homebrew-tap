@@ -3,12 +3,12 @@ id: BREW-008
 title: Fix CI diag command
 theme: formula-coverage
 horizon: now
-status: in-progress
+status: done
 blocks: [BREW-007]
 blocked_by: []
 baseline_ref: 2949c1eaa2f3f82c39315502c8ebf4c4d505508a
 created_at: 2026-10-05T08:30:00Z
-updated_at: 2026-10-05T09:57:00Z
+updated_at: 2026-10-05T10:36:00Z
 ---
 
 ## Goal
@@ -34,7 +34,7 @@ Owner decision (Kris, 2026-10-05): the diag assertions only confirmed that the f
 - [x] Take `baseline_ref`.
 - [x] Delete the three `ki manage diag | grep -F` lines; keep the `command -v` test and `ki --version`.
 - [x] Confirm the workflow parses as YAML and no `ki manage` call remains.
-- [ ] Commit, pull with rebase and push; confirm the next `CI` run on `main` succeeds.
+- [x] Commit, pull with rebase and push; confirm the next `CI` run on `main` succeeds.
 
 ## Files touched
 
@@ -90,8 +90,8 @@ Within the owner-revised boundary: the three redundant `ki manage diag` assertio
 - `ruby -ryaml -e 'YAML.load_file(".github/workflows/ci.yml")'`: parses.
 - `grep -n 'ki manage' .github/workflows/ci.yml`: no matches.
 - `ruby test/tool_release_events_test.rb`: 11 runs, 0 failures; `ruby test/propose_tool_release_test.rb`: 7 runs, 0 failures.
-- `ki repo audit --progress never`: see the Mini recap for the result at commit time.
-- `CI` on `main` after push: recorded by the delivery report; acceptance should confirm it is green.
+- `ki repo audit --progress never`: PASS (17 skills) at delivery commit `020c3d1`.
+- `CI` on `main` for `020c3d1`: run [`37296407275`](https://github.com/knowledgeislands/homebrew-tap/actions/runs/37296407275) succeeded - `KI governance`, `Homebrew formula gates` and `Notify release consumers` all green.
 
 ### Outstanding concerns
 
@@ -99,11 +99,15 @@ CI still clones tools-ki `main`, so a future breaking change there can turn the 
 
 ### Post-change review
 
-The goal (green `CI` on `main` so BREW-007 can later make it required) is met by removing the only failing commands; the remaining checks still prove CI runs the source-linked `ki`. Regression risk is minimal: the change only deletes assertions that duplicated existing proof. Ready for acceptance once the post-push `CI` run is confirmed green.
+The goal (green `CI` on `main` so BREW-007 can later make it required) is met by removing the only failing commands; the remaining checks still prove CI runs the source-linked `ki`. Regression risk is minimal: the change only deletes assertions that duplicated existing proof. The post-push `CI` run is green, so it is ready for acceptance.
 
 ### Mini recap
 
-Delivered the owner-directed removal of the retired `ki manage diag` assertions and captured the tools-ki pin as Triage BREW-009. Local YAML, grep and Ruby test gates pass. Learning route: none beyond BREW-009.
+Delivered the owner-directed removal of the retired `ki manage diag` assertions and captured the tools-ki pin as Triage BREW-009. Local YAML, grep, Ruby test and audit gates pass, and `CI` on `main` is green again (`37296407275`). Learning route: none beyond BREW-009.
+
+## Done
+
+Accepted 2026-10-05 by an independent Fable review under the owner's delegated estate authority (Kris, 2026-10-04 brief): ACCEPT. The review confirmed exactly three `ki manage diag` lines were removed, the `command -v` and `ki --version` proof and bootstrap sequence are unchanged, `propose-tool-releases.yml` is untouched, BREW-009 is a well-formed Triage draft, the audit passes, and `CI` run `37296407275` on `020c3d1` is green on all three jobs. Not pruned; retained for Kris's review.
 
 ## Discussion
 
