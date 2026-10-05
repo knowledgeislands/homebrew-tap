@@ -5,10 +5,10 @@ theme: formula-coverage
 horizon: waiting-for
 status: draft
 blocks: []
-blocked_by: []
+blocked_by: [BREW-008]
 baseline_ref: null
 created_at: 2026-10-03T03:56:54Z
-updated_at: 2026-10-03T06:48:30Z
+updated_at: 2026-10-05T08:30:00Z
 ---
 
 ## Goal
@@ -25,7 +25,7 @@ The upstream tool owns release publication and artifact identity. This tap owns 
 
 ## Current state
 
-Local release intake now proposes updates from the latest published immutable upstream release for existing formulae, and changed-formula CI runs the Homebrew gates before post-merge consumer dispatch. Neither workflow is published yet. Protected auto-merge and live end-to-end evidence are absent.
+Both workflows - scheduled release intake and changed-formula CI with Homebrew gates - are committed and active on GitHub, and the Homebrew formula gates passed on the last changed-formula push (`2971210`, run `37069215625`). Three gaps remain. The `ki-tools-release-bot` App is installed in the organisation but not on this repository, so the scheduled `Propose tool releases` workflow fails creating its token (for example run `37268636528`). `CI` on `main` has failed since 2026-10-04 on the retired `ki manage diag` command, tracked in [BREW-008](BREW-008-fix-ci-diag-command.md). GitHub reports `allow_auto_merge: false`, no rulesets and no branch protection. The latest `mgit`, `rig` and `git-almanac` releases are mutable and correctly skipped, so live proof needs a future immutable `ki` or `techne` release.
 
 ## Steps
 
@@ -82,3 +82,9 @@ The website receives only the post-merge tap event. Its separate auto-acceptance
 ### Local preparation
 
 The scheduled intake is intentionally PR-only. Its source release check rejects mutable and prerelease entries, and its existing-formula boundary leaves first-time formulae for manual review. The Homebrew job is configured but cannot count as a required hosted check until branch rules are installed and a changed-formula PR proves it passes.
+
+### Owner question - 2026-10-05
+
+Triaged by the Fable reviewer as needing Kris: App installation, branch rules and auto-merge are repository-setting and credential choices, parallel to KI Website's [KI-WEB-SITE-042](https://github.com/knowledgeislands/ki-website/blob/main/docs/roadmap/KI-WEB-SITE-042-auto-accept-verified-tool-versions.md). The item stays in Waiting for until answered and until BREW-008 is green.
+
+**Question for Kris:** Will you (a) add homebrew-tap to the `ki-tools-release-bot` App installation, (b) add a `main` ruleset requiring pull requests and the `KI governance` and `Homebrew formula gates` checks, with repository admins as the only bypass actor (no App bypass), and (c) enable `allow_auto_merge` on the tap? Recommended: yes to all three, applied after BREW-008 is green on `main`. The intake opens exact-update PRs only for immutable releases, and auto-merge stays gated by both checks.
