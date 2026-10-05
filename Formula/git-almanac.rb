@@ -1,8 +1,8 @@
 class GitAlmanac < Formula
   desc "Inspect a local Git repository's calendars, authors, and reports offline"
   homepage "https://github.com/knowledgeislands/tools-git-almanac"
-  url "https://github.com/knowledgeislands/tools-git-almanac/releases/download/v0.1.0/git-almanac-v0.1.0.tar.gz"
-  sha256 "800260831367f40fce693bec3764f70d263cee97006ca406803f02db67e2e10c"
+  url "https://github.com/knowledgeislands/tools-git-almanac/releases/download/v0.2.0/git-almanac-v0.2.0.tar.gz"
+  sha256 "bc66dba9cee8e41631f20e002e114866eec5ca5c5d44d5d45f22990c3079a068"
   license "MIT"
 
   depends_on "node"
