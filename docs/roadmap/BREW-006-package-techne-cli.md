@@ -3,12 +3,12 @@ id: BREW-006
 title: Package Techne CLI
 theme: formula-coverage
 horizon: now
-status: awaiting-review
+status: done
 blocks: []
 blocked_by: []
 baseline_ref: a8816988e067dd87c2be75e971009ef6d7d92751
 created_at: 2026-09-20T08:01:34Z
-updated_at: 2026-10-06T01:12:00Z
+updated_at: 2026-10-06T10:09:09Z
 ---
 
 ## Goal
@@ -109,6 +109,10 @@ The goal is met: an immutable Techne release is packaged with verified checksums
 ### Mini recap
 
 The v0.2.0 Techne formula passes style, strict online audit, install, test and offline smoke checks, with checksums matching the published release. No concerns. Learning route: none.
+
+## Done
+
+Accepted 2026-10-06 by Kris Brown on the review packet above.
 
 ## Discussion
 
