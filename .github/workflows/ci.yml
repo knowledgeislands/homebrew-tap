@@ -14,14 +14,18 @@ on:
 permissions:
   contents: read
 
+env:
+  KI_VERSION: v0.6.1
+
 jobs:
   governance:
     name: KI governance
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      # The audit's Markdown gate runs rumdl through bunx.
       - uses: oven-sh/setup-bun@v2
-      - name: Link latest KI from main
+      - name: Install released KI
         env:
           KI_CLI_INSTALL_DIR: ${{ runner.temp }}/ki/bin
           KI_MAN_INSTALL_DIR: ${{ runner.temp }}/ki/man/man1
@@ -37,13 +41,12 @@ jobs:
           printf '{"autoMemoryEnabled": false}\n' > "$HOME/.claude/settings.json"
           mkdir -p "$(dirname "$KI_MCP_SOURCE")"
           printf 'mcpServers: []\n' > "$KI_MCP_SOURCE"
-          git clone --quiet --depth 1 --branch main https://github.com/knowledgeislands/tools-ki.git "$RUNNER_TEMP/tools-ki-source"
-          printf 'KI source commit: %s\n' "$(git -C "$RUNNER_TEMP/tools-ki-source" rev-parse HEAD)"
-          (cd "$RUNNER_TEMP/tools-ki-source" && bun install --frozen-lockfile)
-          bash "$RUNNER_TEMP/tools-ki-source/install.sh" --link
+          curl --fail -sSL --proto '=https' -o "$RUNNER_TEMP/install.sh" \
+            "https://raw.githubusercontent.com/knowledgeislands/tools-ki/$KI_VERSION/install.sh"
+          bash "$RUNNER_TEMP/install.sh" "$KI_VERSION"
           export PATH="$KI_CLI_INSTALL_DIR:$PATH"
           test "$(command -v ki)" = "$KI_CLI_INSTALL_DIR/ki"
-          ki --version
+          test "v$(ki --version)" = "$KI_VERSION"
           ki bootstrap
           ki registry add --repo .
           ki repo repair --repo .
@@ -66,15 +69,17 @@ jobs:
       - name: Test tool release proposal
         run: ruby test/propose_tool_release_test.rb
 
-  formula-gates:
-    name: Homebrew formula gates
-    runs-on: macos-latest
-    timeout-minutes: 45
+  changes:
+    name: Detect formula changes
+    runs-on: ubuntu-latest
+    outputs:
+      formulae: ${{ steps.detect.outputs.formulae }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Verify changed formulae
+      - name: Select changed formulae
+        id: detect
         env:
           EVENT_NAME: ${{ github.event_name }}
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
@@ -91,27 +96,57 @@ jobs:
           else
             formulae=$(git diff-tree --no-commit-id --name-only -r "$GITHUB_SHA" -- 'Formula/*.rb')
           fi
-          if [[ -z "$formulae" ]]; then
-            echo "No changed formulae to verify." >> "$GITHUB_STEP_SUMMARY"
-            exit 0
-          fi
-          brew tap knowledgeislands/tap "$GITHUB_WORKSPACE"
+          selected=()
           while IFS= read -r formula; do
+            [[ -n "$formula" ]] || continue
             [[ "$formula" =~ ^Formula/[a-z0-9]+(-[a-z0-9]+)*\.rb$ ]]
             test -f "$formula"
+            selected+=("$formula")
+          done <<< "$formulae"
+          echo "formulae=${selected[*]}" >> "$GITHUB_OUTPUT"
+          if (( ${#selected[@]} )); then
+            printf 'Changed formulae: %s\n' "${selected[*]}" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "No changed formulae to verify." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+  formula-gates:
+    name: Homebrew formula gates
+    needs: changes
+    # A skipped job satisfies the required check; failed detection still runs and fails here.
+    if: ${{ !cancelled() && (needs.changes.result != 'success' || needs.changes.outputs.formulae != '') }}
+    runs-on: macos-latest
+    timeout-minutes: 45
+    steps:
+      - name: Require formula change detection
+        if: needs.changes.result != 'success'
+        run: |
+          echo "Formula change detection did not succeed." >&2
+          exit 1
+      - uses: actions/checkout@v4
+      - name: Verify changed formulae
+        env:
+          FORMULAE: ${{ needs.changes.outputs.formulae }}
+        run: |
+          set -euo pipefail
+          brew tap knowledgeislands/tap "$GITHUB_WORKSPACE"
+          read -r -a formulae <<< "$FORMULAE"
+          for formula in "${formulae[@]}"; do
+            [[ "$formula" =~ ^Formula/[a-z0-9]+(-[a-z0-9]+)*\.rb$ ]]
             name=${formula#Formula/}
             name=${name%.rb}
             brew style "$formula"
             brew audit --strict --online "knowledgeislands/tap/$name"
             brew install --build-from-source "knowledgeislands/tap/$name"
             brew test "knowledgeislands/tap/$name"
-          done <<< "$formulae"
+          done
 
   notify-consumers:
     name: Notify release consumers
     needs: [governance, formula-gates]
     if: >-
-      needs.governance.result == 'success' && needs.formula-gates.result == 'success' &&
+      !cancelled() && needs.governance.result == 'success' &&
+      (needs.formula-gates.result == 'success' || needs.formula-gates.result == 'skipped') &&
       (github.event_name == 'workflow_dispatch' ||
       (github.event_name == 'push' && github.ref == 'refs/heads/main'))
     runs-on: ubuntu-latest
