@@ -61,11 +61,11 @@ class ProposeToolReleaseTest < Minitest::Test
     source = File.read(path)
     existing = ToolReleaseEvents.from_formula(path)
     assets = source.scan(/url "[^"]+\/([^\/"\n]+)"/).flatten.map do |name|
-      { "name" => name.gsub(existing.fetch("version"), "v0.6.0") }
+      { "name" => name.gsub(existing.fetch("version"), "v999.0.0") }
     end
-    release = RELEASE.merge("tag_name" => "v0.6.0", "assets" => assets)
+    release = RELEASE.merge("tag_name" => "v999.0.0", "assets" => assets)
     result = ProposeToolRelease.update(source, existing, release, fetch: ->(_url) { "archive bytes" })
-    assert_equal 3, result.scan(/url "[^"]+v0\.6\.0[^"]*"/).length
+    assert_equal 3, result.scan(/url "[^"]+v999\.0\.0[^"]*"/).length
     assert_equal 3, result.scan(/sha256 "#{Digest::SHA256.hexdigest('archive bytes')}"/).length
     refute_includes result, existing.fetch("version")
   end

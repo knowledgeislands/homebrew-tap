@@ -63,6 +63,8 @@ jobs:
         run: ki repo audit --repo .
       - name: Test tool release event extraction and consumers
         run: ruby test/tool_release_events_test.rb
+      - name: Test tool release proposal
+        run: ruby test/propose_tool_release_test.rb
 
   formula-gates:
     name: Homebrew formula gates
