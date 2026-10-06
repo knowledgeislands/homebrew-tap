@@ -8,7 +8,7 @@ blocks: []
 blocked_by: []
 baseline_ref: null
 created_at: 2026-10-06T01:22:00Z
-updated_at: 2026-10-06T01:22:00Z
+updated_at: 2026-10-06T22:02:00Z
 ---
 
 ## Goal
@@ -32,6 +32,10 @@ Out of scope: defining the receiver contract or adopting it in each consumer, wh
 ### Cross-repository relationship
 
 Blocked by `ki-agentic-harness` KI-HARNESS-GOV-141 (Auto-bump released ki pin): registering a repository before it has a receiver would dispatch events nobody handles. KI-HARNESS-GOV-141 records the reciprocal `blocks BREW-011`. The relationship is cross-repository, so it is held here in prose and the `blocked_by` field stays empty.
+
+### Folded into KI-HARNESS-GOV-141
+
+In the state-of-play review on 2026-10-06 (`ki-arcadia-principal`, `+/_CHECKPOINTS/state-of-play.md`), Kris approved merging this item into `ki-agentic-harness` KI-HARNESS-GOV-141, which was adopted into Next the same day and now carries this item's scope in its Context. A terminal `merged` disposition must name a target in this roadmap, so this record stays in Triage as a draft rather than closing. It holds no separate scope: the tap-side registry, payload and App-coverage work is planned under GOV-141 and delivered here when that plan places it. Close or respecify this record once GOV-141's plan settles the tap-side work.
 
 ### Open questions
 
