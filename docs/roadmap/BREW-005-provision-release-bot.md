@@ -3,12 +3,12 @@ id: BREW-005
 title: Provision release bot
 theme: formula-coverage
 horizon: now
-status: awaiting-review
+status: done
 blocks: []
 blocked_by: []
 baseline_ref: a8816988e067dd87c2be75e971009ef6d7d92751
 created_at: 2026-09-20T07:34:49Z
-updated_at: 2026-10-06T01:12:00Z
+updated_at: 2026-10-06T10:09:09Z
 ---
 
 ## Goal
@@ -103,6 +103,10 @@ The goal is met: the shared App is active for the tap's fanout, and repeated rea
 ### Mini recap
 
 Release-bot provisioning is evidenced by both settings present, a successful tap dispatch, and successful website receipts, including the v0.6.1 chain on 2026-10-06. No concerns. Learning route: none.
+
+## Done
+
+Accepted 2026-10-06 by Kris Brown on the review packet above.
 
 ## Discussion
 
