@@ -15,6 +15,7 @@ repo_type = "project"
 primary_shape = "ki-repo-homebrew-tap"
 repository = "https://github.com/knowledgeislands/homebrew-tap"
 title = "knowledgeislands/homebrew-tap"
+capital = "https://github.com/knowledgeislands/ki-arcadia-principal"
 description = "Homebrew formulae for Knowledge Islands command-line tools."
 repo_code = "BREW"
 supported_runtimes = ["claude-code", "claude-desktop", "chatgpt-codex"]
@@ -64,17 +65,3 @@ auto_memory = "disabled"
 # -----------------------------------------------------------------------------
 
 [skills.ki-trades]
-
-[skills.ki-trades.routes."knowledgeislands/ki-agentic-harness"]
-export = ["work", "knowledge"]
-import = ["knowledge"]
-standing.export.knowledge = ["shared-capability-maintenance"]
-
-[skills.ki-trades.routes."knowledgeislands/tools-git-almanac"]
-import = ["work"]
-
-[skills.ki-trades.routes."knowledgeislands/tools-ki"]
-import = ["work"]
-
-[skills.ki-trades.routes."knowledgeislands/tools-mgit"]
-import = ["work"]
