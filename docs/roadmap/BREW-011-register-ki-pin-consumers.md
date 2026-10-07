@@ -1,14 +1,14 @@
 ---
 id: BREW-011
 title: Register ki pin consumers
-theme: formula-coverage
-horizon: triage
-status: draft
+kind: deliver
+project: estate-factorisation
+status: triage
 blocks: []
 blocked_by: []
 baseline_ref: null
 created_at: 2026-10-06T01:22:00Z
-updated_at: 2026-10-07T10:21:00Z
+updated_at: 2026-10-07T14:11:21Z
 ---
 
 ## Goal

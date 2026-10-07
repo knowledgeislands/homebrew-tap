@@ -1,14 +1,15 @@
 ---
 id: BREW-012
 title: Document release app operations
-theme: formula-coverage
-horizon: triage
-status: draft
+kind: deliver
+purpose: governance
+project: estate-factorisation
+status: triage
 blocks: []
 blocked_by: []
 baseline_ref: null
 created_at: 2026-10-06T23:04:43Z
-updated_at: 2026-10-06T23:04:43Z
+updated_at: 2026-10-07T14:11:21Z
 ---
 
 ## Goal
