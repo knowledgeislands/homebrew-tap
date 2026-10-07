@@ -4,12 +4,13 @@ title: Document release app operations
 kind: deliver
 purpose: governance
 project: estate-factorisation
-status: triage
+horizon: now
+status: draft
 blocks: []
 blocked_by: []
 baseline_ref: null
 created_at: 2026-10-06T23:04:43Z
-updated_at: 2026-10-07T14:11:21Z
+updated_at: 2026-10-07T20:38:35Z
 ---
 
 ## Goal
@@ -39,6 +40,49 @@ Patch copies are kept at `~/.local/state/ki/state-of-play/salvage/release-app/`.
 In scope: a tap-owned operations guide for the release App's sender side - consumer onboarding and removal, credential presence checks, retry and replay, failure diagnosis, key revocation and compromise response - and reconciling the three disagreements above.
 
 Out of scope: key custody and the rotation procedure, which the Arcadia note owns and the guide should cite rather than copy; each consumer's receiver behaviour; the auto-merge decision; and registering new consumers, which BREW-011 owns. App and credential steps remain Kris-only under BREW-005.
+
+## Current state
+
+Adopted into Now on 2026-10-07 under decision 17 of the state-of-play design; not yet planned. The tap has no `docs/guides/` directory, so the guide's location is unconfirmed. The release workflows on `main` are `.github/workflows/ci.yml` and `.github/workflows/propose-tool-releases.yml`. The salvaged sender-side draft is at `~/.local/state/ki/state-of-play/salvage/release-app/homebrew-tap/0001-docs-releases-document-release-app-operations.patch` and predates ODR-KI-WEBSITE-001 and the Arcadia GitHub Apps note.
+
+## Steps
+
+- [ ] Re-check the salvaged draft against the current workflows, the consumer registry and the Arcadia GitHub Apps note, and narrow it to what the tap owns.
+- [ ] Confirm the guide's location under this repository's declared documentation shape.
+- [ ] Write the sender-side operations guide: consumer onboarding and removal, credential presence checks without reading values, retry and replay, `403`/`404` and token-mint diagnosis, key revocation and compromise response, citing the Arcadia note for custody and rotation.
+- [ ] Reconcile the three disagreements in Context, routing any change outside this repository to its owner rather than editing it here.
+
+## Files touched
+
+The new operations guide and `CLAUDE.md`'s onboarding paragraph, which should point to the guide. Changes in other repositories are routed to their owners, not made here.
+
+## Verify
+
+1. `ki repo audit` passes in this repository.
+2. The guide covers every in-scope topic in Boundary and cites, rather than copies, the Arcadia key-custody and rotation procedure.
+3. Each of the three disagreements in Context is resolved here or has a named owner record.
+
+## Dependencies / blocks
+
+None blocking. App and credential steps remain Kris-only under BREW-005; consumer registration remains with BREW-011.
+
+## Documentation impact
+
+### Decision Records
+
+None expected; the auto-merge decision is already recorded in ODR-KI-WEBSITE-001.
+
+### Specifications
+
+None; the guide documents operation, not a behaviour contract.
+
+### Guides
+
+Adds the tap's release-App operations guide.
+
+### Roadmap
+
+Any disagreement owned elsewhere becomes a handoff item in that repository.
 
 ## Discussion
 
