@@ -3,12 +3,14 @@ id: BREW-011
 title: Register ki pin consumers
 kind: deliver
 project: estate-factorisation
-status: triage
+status: cancelled
+resolution: merged
+resolution_target: KI-HARNESS-GOV-141
 blocks: []
 blocked_by: []
 baseline_ref: null
 created_at: 2026-10-06T01:22:00Z
-updated_at: 2026-10-07T14:11:21Z
+updated_at: 2026-10-07T14:11:49Z
 ---
 
 ## Goal
@@ -27,6 +29,10 @@ In scope: adding receiver-ready repositories to the consumer registry, any regis
 
 Out of scope: defining the receiver contract or adopting it in each consumer, which `ki-agentic-harness` owns under KI-HARNESS-GOV-141; and the App and credential steps themselves, which remain Kris-only under BREW-005.
 
+## Cancelled
+
+Cancelled 2026-10-07 as merged into KI-HARNESS-GOV-141, carrying out the fold Kris Brown approved in the state-of-play review on 2026-10-06 and re-confirmed on 2026-10-07, recorded under "Folded into KI-HARNESS-GOV-141" below; the migration proposals Kris approved on 2026-10-07 (decision 7) name the same closure. KI-HARNESS-GOV-141 already carries this item's scope in its Context, so this record holds no separate work. The target lives in `ki-agentic-harness` at `docs/roadmap/KI-HARNESS-GOV-141-auto-bump-released-ki-pin.md`. Outstanding changes: the tap-side registry, payload and App-coverage work is still to be delivered in this repository when GOV-141's plan places it, and the App and credential steps remain Kris-only under BREW-005. This closure does not edit GOV-141.
+
 ## Discussion
 
 ### Cross-repository relationship
@@ -44,3 +50,7 @@ On 2026-10-07 Kris confirmed this fold again in the `ki-arcadia-principal` state
 ### Open questions
 
 - If the harness chooses central fan-out rather than per-repository receivers, the registry may need only one new consumer; this item should then be reshaped rather than register 21 repositories.
+
+### Fold carried out (2026-10-07)
+
+The roadmap model replaced the same-roadmap target rule with cancellation and a cross-repository `resolution_target`, so the fold is carried out directly as a `merged` resolution; see Cancelled.
