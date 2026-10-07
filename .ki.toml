@@ -49,7 +49,6 @@ organisation_code = "KIS"
 adapter = "roadmap"
 
 [skills.ki-work-roadmap]
-themes = ["formula-coverage"]
 
 [skills.ki-tokenomics]
 
