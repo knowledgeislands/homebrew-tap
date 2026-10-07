@@ -1,14 +1,14 @@
 # Knowledge Islands repository configuration.
 # Its presence declares conformance with the Knowledge Islands repository standard.
 
-# =============================================================================
-
 # -----------------------------------------------------------------------------
 # Foundation
 # -----------------------------------------------------------------------------
 
 [repo]
-harnesses = ["knowledgeislands/ki-agentic-harness"]
+harnesses = [
+  "knowledgeislands/ki-agentic-harness",
+]
 
 [skills.ki-repo]
 repo_type = "project"
@@ -18,15 +18,14 @@ title = "knowledgeislands/homebrew-tap"
 capital = "https://github.com/knowledgeislands/ki-arcadia-principal"
 description = "Homebrew formulae for Knowledge Islands command-line tools."
 repo_code = "BREW"
-supported_runtimes = ["claude-code", "claude-desktop", "chatgpt-codex"]
+supported_runtimes = [
+  "claude-code",
+  "claude-desktop",
+  "chatgpt-codex",
+]
 visibility = "public"
 
 [skills.ki-authoring]
-[skills.ki-binding]
-[skills.ki-binding-claude]
-[skills.ki-binding-chatgpt]
-[skills.ki-housekeeping-chatgpt]
-auto_memory = "disabled"
 
 # -----------------------------------------------------------------------------
 # Repository shape
@@ -35,6 +34,28 @@ auto_memory = "disabled"
 [skills.ki-repo-project]
 
 [skills.ki-repo-homebrew-tap]
+
+# -----------------------------------------------------------------------------
+# Governance and runtime
+# -----------------------------------------------------------------------------
+
+[skills.ki-binding]
+
+[skills.ki-binding-claude]
+
+[skills.ki-binding-chatgpt]
+
+[skills.ki-housekeeping-claude]
+auto_memory = "disabled"
+
+[skills.ki-housekeeping-chatgpt]
+auto_memory = "disabled"
+
+[skills.ki-tokenomics]
+
+[skills.ki-tokenomics-claude]
+
+[skills.ki-tokenomics-chatgpt]
 
 # -----------------------------------------------------------------------------
 # Change management
@@ -49,15 +70,6 @@ organisation_code = "KIS"
 adapter = "roadmap"
 
 [skills.ki-work-roadmap]
-
-[skills.ki-tokenomics]
-
-[skills.ki-housekeeping-claude]
-auto_memory = "disabled"
-
-[skills.ki-tokenomics-claude]
-
-[skills.ki-tokenomics-chatgpt]
 
 # -----------------------------------------------------------------------------
 # Relationships
