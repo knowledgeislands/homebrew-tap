@@ -8,7 +8,7 @@ blocks: []
 blocked_by: []
 baseline_ref: null
 created_at: 2026-10-06T01:22:00Z
-updated_at: 2026-10-06T22:02:00Z
+updated_at: 2026-10-07T10:21:00Z
 ---
 
 ## Goal
@@ -36,6 +36,10 @@ Blocked by `ki-agentic-harness` KI-HARNESS-GOV-141 (Auto-bump released ki pin): 
 ### Folded into KI-HARNESS-GOV-141
 
 In the state-of-play review on 2026-10-06 (`ki-arcadia-principal`, `+/_CHECKPOINTS/state-of-play.md`), Kris approved merging this item into `ki-agentic-harness` KI-HARNESS-GOV-141, which was adopted into Next the same day and now carries this item's scope in its Context. A terminal `merged` disposition must name a target in this roadmap, so this record stays in Triage as a draft rather than closing. It holds no separate scope: the tap-side registry, payload and App-coverage work is planned under GOV-141 and delivered here when that plan places it. Close or respecify this record once GOV-141's plan settles the tap-side work.
+
+### Fold re-confirmed (2026-10-07)
+
+On 2026-10-07 Kris confirmed this fold again in the `ki-arcadia-principal` state-of-play review. It still cannot be carried out as a `merged` disposition: `ki-accept` requires the target to resolve in this roadmap, and KI-HARNESS-GOV-141 lives in `ki-agentic-harness`. The skills allow two routes. Kris approves a `rejected` Triage disposition whose rationale records that the scope now lives in KI-HARNESS-GOV-141, closed through `ki-accept`; or this record stays in Triage until GOV-141's plan places the tap-side work, and is then respecified or closed. Nothing else changes here until Kris chooses.
 
 ### Open questions
 
