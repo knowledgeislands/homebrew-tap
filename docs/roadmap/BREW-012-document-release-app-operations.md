@@ -4,13 +4,12 @@ title: Document release app operations
 kind: deliver
 purpose: governance
 project: estate-factorisation
-horizon: now
-status: awaiting-review
+status: done
 blocks: []
 blocked_by: []
 baseline_ref: d440857a5107d0ebb04549ca5f282be306acc3bb
 created_at: 2026-10-06T23:04:43Z
-updated_at: 2026-10-08T08:35:00Z
+updated_at: 2026-10-08T08:40:00Z
 ---
 
 ## Goal
@@ -123,7 +122,11 @@ Scope stayed within the four planned files. No workflow, script or formula chang
 
 ### Mini recap
 
-Delivered and verified; accepted under Kris's standing decision (Decision 17).
+Delivered in `c494908` and verified; accepted under Kris's standing decision (Decision 17).
+
+## Done
+
+Accepted 2026-10-08 by Kris Brown on the review packet above.
 
 ## Discussion
 
