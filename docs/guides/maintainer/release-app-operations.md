@@ -2,7 +2,7 @@
 
 Use this guide to operate the sender side of the tool release chain: the shared `ki-tools-release-bot` GitHub App as this tap uses it to receive tool releases, propose formula updates and notify release consumers. App administration and every credential step are reserved for the organisation owner.
 
-The `knowledgeislands` organisation owns the App. Arcadia's GitHub Apps convention, in `ki-arcadia-principal` at `Admin/Governance/Conventions/Admin Conventions/GitHub Apps.md`, records its permissions, installation targets, credential holders, key custody and the key rotation procedure. This guide cites that procedure rather than repeating it. Each consumer owns its receiver, its validation and its review boundary; the decision to auto-merge KI Website updates is recorded in `ki-website` as ODR-KI-WEBSITE-001.
+The `knowledgeislands` organisation owns the App. Arcadia's GitHub Apps convention, in `ki-arcadia-principal` at `Admin/Governance/Conventions/Admin Conventions/GitHub Apps.md`, records its permissions, installation targets, credential holders, key custody and the key rotation procedure. This guide cites that procedure rather than repeating it. Each consumer owns its receiver, its validation and its review boundary; the decision to auto-merge KI Website updates is recorded in `ki-website` as ODR-KI-WEB-001.
 
 ## The chain
 
