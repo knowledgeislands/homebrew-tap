@@ -1,12 +1,14 @@
 ---
 id: BREW-013
 title: Register ki pin receivers
-status: triage
+status: cancelled
+resolution: merged
+resolution_target: KI-HARNESS-GOV-168
 blocks: []
 blocked_by: []
 baseline_ref: null
 created_at: 2026-10-08T09:40:00Z
-updated_at: 2026-10-08T09:40:00Z
+updated_at: 2026-10-09T21:03:23Z
 ---
 
 ## Goal
@@ -24,6 +26,10 @@ Originating repository and item: `ki-agentic-harness` KI-HARNESS-GOV-141, which 
 ## Boundary
 
 In scope: registry entries for repositories whose receiver is merged and whose App installation and credentials the organisation owner has provisioned, each followed by a replay. Out of scope: the receivers themselves, which each repository owns, and every App or credential step, which is reserved for the organisation owner.
+
+## Cancelled
+
+Cancelled 2026-10-09 as merged, approved by Kris Brown (state-of-play decisions log, Decision 21). `ki-agentic-harness` KI-HARNESS-GOV-168 (Roll out pin receivers), at `docs/roadmap/KI-HARNESS-GOV-168-roll-out-ki-pin-receivers.md` in that repository, now carries this record's registry entries in `.github/tool-release-consumers.json`, the replay after each registration and the release-event verification; it will send this repository a work trade for each registration once the receiver's App installation and credentials exist. It leaves no outstanding change here.
 
 ## Discussion
 
