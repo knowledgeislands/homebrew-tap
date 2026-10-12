@@ -1,4 +1,4 @@
-# knowledgeislands/homebrew-tap
+# Knowledge Islands Homebrew Tap
 
 Homebrew formulae for Knowledge Islands command-line tools.
 

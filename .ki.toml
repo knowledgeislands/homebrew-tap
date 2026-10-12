@@ -14,10 +14,10 @@ harnesses = [
 repo_type = "project"
 primary_shape = "ki-repo-homebrew-tap"
 repository = "https://github.com/knowledgeislands/homebrew-tap"
-title = "knowledgeislands/homebrew-tap"
-capital = "https://github.com/knowledgeislands/ki-arcadia-principal"
+title = "Knowledge Islands Homebrew Tap"
+capital = "https://github.com/knowledgeislands/ki-principal"
 description = "Homebrew formulae for Knowledge Islands command-line tools."
-repo_code = "BREW"
+repo_code = "KI-BREW"
 supported_runtimes = [
   "claude-code",
   "claude-desktop",
