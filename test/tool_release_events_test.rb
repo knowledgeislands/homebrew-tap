@@ -121,4 +121,23 @@ class ToolReleaseEventsTest < Minitest::Test
       assert_includes error.message, "invalid consumer repository"
     end
   end
+
+  def test_accepts_dotted_consumer_repository
+    with_registry("consumers" => ["knowledgeislands/apps-knowledgeislands.info", "knowledgeislands/tool_catalogue"]) do |path|
+      assert_equal(
+        ["knowledgeislands/apps-knowledgeislands.info", "knowledgeislands/tool_catalogue"],
+        ToolReleaseEvents.consumers_from(path)
+      )
+    end
+  end
+
+  def test_rejects_traversal_and_empty_consumer_names
+    ["knowledgeislands/", "knowledgeislands/.", "knowledgeislands/..", "knowledgeislands/../ki-website",
+     "knowledgeislands/ki-website/dispatches", "knowledgeislands/ki website", "knowledgeislands/ki-website\n"].each do |repository|
+      with_registry("consumers" => [repository]) do |path|
+        error = assert_raises(RuntimeError) { ToolReleaseEvents.consumers_from(path) }
+        assert_includes error.message, "invalid consumer repository"
+      end
+    end
+  end
 end

@@ -5,7 +5,7 @@ require "json"
 
 module ToolReleaseEvents
   RELEASE_URL = %r{\Ahttps://github\.com/(?<repository>knowledgeislands/tools-[a-z0-9-]+)/(?:releases/download|archive/refs/tags)/(?<version>v\d+\.\d+\.\d+)(?:/|\.tar\.gz\z)}
-  CONSUMER_REPOSITORY = %r{\Aknowledgeislands/[a-z0-9]+(?:-[a-z0-9]+)*\z}
+  CONSUMER_REPOSITORY = %r{\Aknowledgeislands/(?!\.{1,2}\z)[A-Za-z0-9._-]{1,100}\z}
 
   module_function
 
