@@ -1,8 +1,8 @@
 class Rig < Formula
   desc "Describe and manage a person's working setup"
   homepage "https://github.com/knowledgeislands/tools-rig"
-  url "https://github.com/knowledgeislands/tools-rig/archive/refs/tags/v0.6.0.tar.gz"
-  sha256 "1be1dfbdd6e6f994a7625ef7c915f5260d831e6890fa7962b694593677937aa1"
+  url "https://github.com/knowledgeislands/tools-rig/archive/refs/tags/v0.6.1.tar.gz"
+  sha256 "e08790d16354d882820c0db2a563aab675335407cff954cd43b56cfbef3e8e6a"
   license "MIT"
 
   def install
