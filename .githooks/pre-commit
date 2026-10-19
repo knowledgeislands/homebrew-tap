@@ -1,0 +1,25 @@
+#!/bin/sh
+# Committed pre-commit gate, bound by `core.hooksPath` so every working tree runs it.
+# Without its tools it refuses the commit rather than letting it pass unchecked.
+root="$(git rev-parse --show-toplevel)" || exit 1
+missing=''
+for tool in ki ruby; do
+  if ! command -v "$tool" >/dev/null 2>&1; then missing="$missing $tool"; fi
+done
+if [ -n "$missing" ]; then
+  echo "pre-commit: the commit gate cannot run; not on PATH:$missing" >&2
+  echo "pre-commit: install them, then commit again." >&2
+  echo "pre-commit: do not bypass with --no-verify; a gate that cannot run is unknown, not a pass." >&2
+  exit 1
+fi
+cd "$root" || exit 1
+# The tests the Verification section of AGENTS.md declares.
+ruby test/tool_release_events_test.rb || exit 1
+ruby test/propose_tool_release_test.rb || exit 1
+# The focused shape audit stays check-only; `--staged` keeps evaluation whole-tree but
+# scopes the verdict to the staged paths, and CI keeps the whole-tree verdict. On success
+# it prints one summary line; on failure it runs again in full so the findings show.
+ki repo audit --repo "$root" --skill ki-repo-homebrew-tap --staged \
+  --concise --progress never --reporter-levels FAIL && exit 0
+ki repo audit --repo "$root" --skill ki-repo-homebrew-tap --staged
+exit 1
