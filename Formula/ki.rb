@@ -5,20 +5,20 @@ class Ki < Formula
 
   on_arm do
     on_macos do
-      url "https://github.com/knowledgeislands/tools-ki/releases/download/v0.12.0/ki-v0.12.0-darwin-arm64.tar.gz"
-      sha256 "64ad69301a503588e6a14537a4675333cdf83a2ac7ef39b3a7b5f022dc796925"
+      url "https://github.com/knowledgeislands/tools-ki/releases/download/v0.13.0/ki-v0.13.0-darwin-arm64.tar.gz"
+      sha256 "37f3c17bcc5dd38be3a875d962770d1b28ad4c7b3ae858f1889b4e835f8d2186"
     end
   end
 
   on_intel do
     on_macos do
-      url "https://github.com/knowledgeislands/tools-ki/releases/download/v0.12.0/ki-v0.12.0-darwin-x64.tar.gz"
-      sha256 "a6b6e6def44ab84f49e2c974f20a69388029ca4930921585b9d489f93c32899a"
+      url "https://github.com/knowledgeislands/tools-ki/releases/download/v0.13.0/ki-v0.13.0-darwin-x64.tar.gz"
+      sha256 "c363683c6a8ff613a2a6b94cb79f47c5e8013778994d69f5394b54d4fd263732"
     end
 
     on_linux do
-      url "https://github.com/knowledgeislands/tools-ki/releases/download/v0.12.0/ki-v0.12.0-linux-x64.tar.gz"
-      sha256 "43407b845e777e2df669d5d155a540ec8e45a7989658910276f8668508358e91"
+      url "https://github.com/knowledgeislands/tools-ki/releases/download/v0.13.0/ki-v0.13.0-linux-x64.tar.gz"
+      sha256 "2a3be80cf491db9482d84b5993be4b279987482d4fc30c6bcfdf5b8737033d2a"
     end
   end
 
