@@ -1,3 +1,6 @@
 {
-  "consumers": ["knowledgeislands/apps-knowledgeislands.info"]
+  "consumers": [
+    "knowledgeislands/apps-knowledgeislands.info",
+    "knowledgeislands/ki-agentic-harness"
+  ]
 }
