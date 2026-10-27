@@ -213,6 +213,6 @@ jobs:
             payload=$(jq -cn --argjson release "$release" --arg tap_commit "$TAP_COMMIT" '{event_type: "tool-release-published", client_payload: ($release + {tap_commit: $tap_commit})}')
             while IFS= read -r consumer; do
               gh api --method POST "repos/$consumer/dispatches" --input - <<< "$payload"
-              echo "Dispatched $(jq -r '.tool + " " + .version' <<< "$release") to $consumer" >> "$GITHUB_STEP_SUMMARY"
+              echo "Dispatched $(jq -r '.tool + " " + .version' <<< "$release") to $consumer" | tee -a "$GITHUB_STEP_SUMMARY"
             done < "$RUNNER_TEMP/release-consumers"
           done < "$RUNNER_TEMP/formula-releases"
