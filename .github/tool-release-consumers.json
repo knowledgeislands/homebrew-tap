@@ -1,6 +1,6 @@
 {
   "consumers": [
     "knowledgeislands/apps-knowledgeislands.info",
-    "knowledgeislands/ki-agentic-harness"
+    "knowledgeislands/ki-agent-backpack"
   ]
 }

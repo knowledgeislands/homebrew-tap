@@ -52,7 +52,7 @@ jobs:
           ki bootstrap
           ki registry add --repo .
           ki repo repair --repo .
-          ki harness list | grep -F 'knowledgeislands/ki-agentic-harness'
+          ki harness list | grep -E 'knowledgeislands/ki-agent(ic-harness|-backpack)'
           {
             printf 'KI_CLI_INSTALL_DIR=%s\n' "$KI_CLI_INSTALL_DIR"
             printf 'KI_MAN_INSTALL_DIR=%s\n' "$KI_MAN_INSTALL_DIR"
