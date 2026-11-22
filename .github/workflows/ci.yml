@@ -132,6 +132,7 @@ jobs:
         run: |
           set -euo pipefail
           brew tap knowledgeislands/tap "$GITHUB_WORKSPACE"
+          brew trust knowledgeislands/tap
           read -r -a formulae <<< "$FORMULAE"
           for formula in "${formulae[@]}"; do
             [[ "$formula" =~ ^Formula/[a-z0-9]+(-[a-z0-9]+)*\.rb$ ]]
