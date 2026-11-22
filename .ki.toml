@@ -31,9 +31,7 @@ visibility = "public"
 # Repository shape
 # -----------------------------------------------------------------------------
 
-[skills.ki-repo-project]
-
-[skills.ki-repo-homebrew-tap]
+[skills.ki-repo-tools]
 
 # -----------------------------------------------------------------------------
 # Governance and runtime
